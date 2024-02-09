@@ -1,6 +1,11 @@
 twig:
-    file_name_pattern: '*.twig'
+  file_name_pattern: "*.twig"
+  date:
+    format: d/m/Y
+  globals:
+    chemin_images: "/images/"
+    chemin_docs: "/docs/"
 
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true

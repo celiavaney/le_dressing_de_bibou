@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de Bibou - Inscription
+{% endblock %}
+
+{% block body %}
+	<div class="nom-appli">Le dressing de Bibou</div>
+	<h1 class="titreh1 text-center">Inscription</h1>
+
+	{# {{ form_errors(registrationForm) }} #}
+	{{ form_start(registrationForm) }}
+	<div class="login-form">
+		<input name="{{ field_name(registrationForm.email) }}" value="{{ field_value(registrationForm.email) }}" placeholder="e-mail *" class="form-control">
+		{{ form_errors(registrationForm.email) }}
+
+		<input name="{{ field_name(registrationForm.plainPassword) }}" value="{{ field_value(registrationForm.plainPassword) }}" placeholder="mot de passe *" class="form-control">
+		{{ form_errors(registrationForm.plainPassword) }}
+
+		<div class="d-flex gap-1 mt-2">
+			<input type="checkbox" id="{{ field_name(registrationForm.agreeTerms) }}" name="{{ field_value(registrationForm.agreeTerms) }}">
+			<label for="{{ field_name(registrationForm.agreeTerms) }}">Accepter les CGU *</label>
+		</div>
+		{# {{ form_widget(registrationForm.agreeTerms) }}{{ form_errors(registrationForm.agreeTerms) }} #}
+		<button type="submit" class="button-1 btn">
+			Je m'inscris</button>
+	</div>
+	{{ form_end(registrationForm) }}
+
+	<div class="footer d-flex flex-column gap-1 align-items-center">
+		J'ai déjà un compte&nbsp;?
+		<a href="{{ path("app_login") }}" class="button-2 btn">Je me connecte</a>
+	</div>
+{% endblock %}

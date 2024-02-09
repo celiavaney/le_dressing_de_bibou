@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Tailles{% endblock %}
+
+{% block body %}
+    <h1>Create new Tailles</h1>
+
+    {{ include('admin/tailles/_form.html.twig') }}
+
+    <a href="{{ path('app_admin_tailles_index') }}">back to list</a>
+{% endblock %}

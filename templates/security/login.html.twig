@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!
+{% endblock %}
+
+{% block body %}
+	<form method="post">
+		{% if error %}
+			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+		<div class="nom-appli">Le dressing de Bibou</div>
+		<h1 class="titreh1 text-center">Bienvenue</h1>
+
+		<div class="login-form">
+			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="e-mail">
+			<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="mot de passe">
+
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+			<button class="button-1 btn btn-lg" type="submit">
+				Je me connecte
+			</button>
+		</div>
+
+		<div class="footer d-flex flex-column gap-1 align-items-center">
+			Je n'ai pas de compte&nbsp;?
+			<a href="{{ path("app_register") }}" class="button-2 btn">Je m'inscris</a>
+		</div>
+	</form>
+{% endblock %}
