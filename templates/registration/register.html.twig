@@ -4,23 +4,30 @@
 {% endblock %}
 
 {% block body %}
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+
 	<div class="nom-appli">Le dressing de Bibou</div>
 	<h1 class="titreh1 text-center">Inscription</h1>
 
 	{# {{ form_errors(registrationForm) }} #}
 	{{ form_start(registrationForm) }}
 	<div class="login-form">
-		<input name="{{ field_name(registrationForm.email) }}" value="{{ field_value(registrationForm.email) }}" placeholder="e-mail *" class="form-control">
-		{{ form_errors(registrationForm.email) }}
+		<input name="{{ field_name(registrationForm.email) }}" value="{{ field_value(registrationForm.email) }}" placeholder="e-mail *" class="form-control" required>
+		<span class='form-errors'>{{ form_errors(registrationForm.email) }}</span>
 
-		<input name="{{ field_name(registrationForm.plainPassword) }}" value="{{ field_value(registrationForm.plainPassword) }}" placeholder="mot de passe *" class="form-control">
-		{{ form_errors(registrationForm.plainPassword) }}
+		<input name="{{ field_name(registrationForm.plainPassword) }}" value="{{ field_value(registrationForm.plainPassword) }}" placeholder="mot de passe *" class="form-control" required>
+		<span class='form-errors'>{{ form_errors(registrationForm.plainPassword) }}</span>
 
-		<div class="d-flex gap-1 mt-2">
-			<input type="checkbox" id="{{ field_name(registrationForm.agreeTerms) }}" name="{{ field_value(registrationForm.agreeTerms) }}">
-			<label for="{{ field_name(registrationForm.agreeTerms) }}">Accepter les CGU *</label>
+
+		<div class='d-flex flex-column align-items-center'>
+			<span>{{form_widget(registrationForm.agreeTerms)}}{{form_label(registrationForm.agreeTerms)}}</span>
+			<span class='form-errors'>
+				{{form_errors(registrationForm.agreeTerms)}}</span>
 		</div>
-		{# {{ form_widget(registrationForm.agreeTerms) }}{{ form_errors(registrationForm.agreeTerms) }} #}
+
+
 		<button type="submit" class="button-1 btn">
 			Je m'inscris</button>
 	</div>

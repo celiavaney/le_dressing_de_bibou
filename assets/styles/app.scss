@@ -42,6 +42,11 @@ body {
   border-radius: 15px;
 }
 
+.button-1:hover{
+  background-color: #745A94;
+  color: white;
+}
+
 //VIOLET CLAIR
 .button-2{
   background-color: #B3A1C4;
@@ -49,6 +54,11 @@ body {
   border: none;
   font-size: 16px;
   border-radius: 15px;
+}
+
+.button-2:hover{
+  background-color: #876FA3;
+  color: white;
 }
 
 .footer{
@@ -59,6 +69,16 @@ body {
   margin-top: 90px;
   margin-bottom: 2rem;
 }
+
+.form-errors{
+  color: rgb(246, 72, 72);
+  
+  ul{
+    margin: 0;
+    list-style-type: none;
+  }
+}
+
 
 //PAGE LOGIN
 
