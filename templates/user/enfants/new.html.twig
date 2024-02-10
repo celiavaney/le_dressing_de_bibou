@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de Bibou - Ajout enfant
+{% endblock %}
+
+{% block body %}
+	<div class="nom-appli">Le dressing de Bibou</div>
+	<h1 class='text-center'>J'ajoute un enfant</h1>
+
+	{{ form_start(form) }}
+	<div class="login-form">
+		<input name="{{ field_name(form.prenom) }}" value="{{ field_value(form.prenom) }}" placeholder="Prénom *" class="form-control" required>
+		<span class='form-errors'>{{ form_errors(form.prenom) }}</span>
+
+		<button type="submit" class="button-1 btn mb-4">
+			Je valide
+		</button>
+	</div>
+	{{ form_end(form) }}
+
+	<div class="text-center mt-5">
+		<a class='button-2 btn' href="{{ path('app_user_enfants_index') }}">Retour à la liste</a>
+	</div>
+{% endblock %}

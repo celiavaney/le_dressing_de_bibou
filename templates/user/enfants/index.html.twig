@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de Bibou - Choix enfant
+{% endblock %}
+
+{% block body %}
+	<div class="nom-appli">Le dressing de Bibou</div>
+	<h1 class="titreh1 text-center p-3">Le dressing de</h1>
+	<a href="{{ path('app_user_enfant_new')}}" class="button-add">
+		<i class="fa-solid fa-square-plus" style="color: #bacf7d;"></i>
+	</a>
+	<div class="choix-enfant p-3 d-flex flex-column gap-3">
+		{% for enfant in enfants %}
+			<a href="{{ path('app_user_enfant_index', {'id': enfant.id}) }}" class="form-control m-auto d-flex justify-content-between align-items-center">{{ enfant.prenom }}
+				{{ include('user/enfants/_delete_form.html.twig') }}
+			</a>
+		{% endfor %}
+	</div>
+{% endblock %}
