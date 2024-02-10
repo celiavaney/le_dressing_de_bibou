@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de
+	{{enfant.prenom}}
+{% endblock %}
+
+{% block body %}
+	<div class="nom-appli">Le dressing de Bibou</div>
+	<h1 class="titreh1 text-center p-3">Le dressing
+		<br>
+		de
+		<span class="prenom">{{ enfant.prenom}}</span>
+	</h1>
+
+{% endblock %}
