@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de Bibou - Page d'accueil admin
+{% endblock %}
+
+{% block body %}
+	<div class="nom-appli">Le dressing de Bibou</div>
+	<h1 class=" text-center p-3">Espace administrateur</h1>
+	<div class="d-flex flex-column gap-3 align-items-center">
+		<a href="{{path('app_admin_user_index')}}" class="button-1 btn">Les clients</a>
+		<a href="{{path('app_admin_articles_index')}}" class="button-1 btn">Les articles</a>
+		<a href="{{path('app_admin_enfants_index')}}" class="button-1 btn">Les enfants</a>
+	</div>
+{% endblock %}

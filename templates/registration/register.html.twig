@@ -13,7 +13,7 @@
 
 	{# {{ form_errors(registrationForm) }} #}
 	{{ form_start(registrationForm) }}
-	<div class="login-form">
+	<div class="form">
 		<input name="{{ field_name(registrationForm.email) }}" value="{{ field_value(registrationForm.email) }}" placeholder="e-mail *" class="form-control" required>
 		<span class='form-errors'>{{ form_errors(registrationForm.email) }}</span>
 

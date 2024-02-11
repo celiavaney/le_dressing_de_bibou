@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticlesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticlesRepository::class)]
 class Articles
@@ -20,6 +21,7 @@ class Articles
     private ?string $photo = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Choice(choices:["fille", "garçon", "unisexe"], multiple:false, message:"Choose only one sexe.")]
     private ?string $sexe = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -45,6 +47,10 @@ class Articles
     #[ORM\ManyToOne(inversedBy: 'nombreArticles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tailles $tailles = null;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -159,6 +165,22 @@ class Articles
         return $this;
     }
 
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
     public function getTailles(): ?Tailles
     {
         return $this->tailles;
@@ -167,6 +189,18 @@ class Articles
     public function setTailles(?Tailles $tailles): static
     {
         $this->tailles = $tailles;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

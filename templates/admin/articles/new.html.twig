@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Articles{% endblock %}
+{% block title %}Le dressing de Bibou - Ajouter un article admin
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Articles</h1>
+	<div class="nom-appli">Le dressing de Bibou</div>
+	<h1 class=" text-center p-3">Espace administrateur&nbsp;:
+		<br>
+		Ajouter un article
+	</h1>
 
-    {{ include('admin/articles/_form.html.twig') }}
+	{{ include('admin/articles/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_articles_index') }}">back to list</a>
+	<div class="text-center my-5">
+		<a class='button-2 btn' href="{{ path('app_admin_articles_index') }}">Retour à la liste articles</a>
+	</div>
 {% endblock %}

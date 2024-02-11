@@ -5,6 +5,7 @@ twig:
   globals:
     chemin_images: "/images/"
     chemin_docs: "/docs/"
+    chemin_uploads: "/uploads/"
 
 when@test:
   twig:

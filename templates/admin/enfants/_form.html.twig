@@ -1,4 +1,11 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="form">
+	<input name="{{ field_name(form.prenom) }}" value="{{ field_value(form.prenom) }}" placeholder="prénom *" class="form-control" required>
+	<span class='form-errors'>{{ form_errors(form.prenom) }}</span>
+
+	{{ form_widget(form.user) }}
+	<span class='form-errors'>{{ form_errors(form.user) }}</span>
+
+	<button class="button-1 btn">{{ button_label|default('Valider') }}</button>
+</div>
 {{ form_end(form) }}

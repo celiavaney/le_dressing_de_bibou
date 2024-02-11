@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Enfants{% endblock %}
+{% block title %}Le dressing de Bibou - Editer un enfant admin
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Enfants</h1>
+	<div class="nom-appli">Le dressing de Bibou</div>
+	<h1 class=" text-center p-3">Espace administrateur&nbsp;:
+		<br>
+		Modifier
+		{{ enfant.prenom }}
+	</h1>
 
-    {{ include('admin/enfants/_form.html.twig', {'button_label': 'Update'}) }}
+	{{ form_start(form) }}
+	<div class="form">
+		<input name="{{ field_name(form.prenom) }}" value="{{ field_value(form.prenom) }}" placeholder="prénom *" class="form-control" required>
+		<span class='form-errors'>{{ form_errors(form.prenom) }}</span>
 
-    <a href="{{ path('app_admin_enfants_index') }}">back to list</a>
+		<button class="button-1 btn">{{ button_label|default('Modifier') }}</button>
+	</div>
+	{{ form_end(form) }}
 
-    {{ include('admin/enfants/_delete_form.html.twig') }}
+	<div class="text-center my-5">
+		<a class='button-2 btn' href="{{ path('app_admin_enfants_index') }}">Retour à la liste enfants</a>
+	</div>
 {% endblock %}
