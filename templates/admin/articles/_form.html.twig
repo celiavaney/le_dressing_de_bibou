@@ -1,4 +1,79 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="add-article-form">
+	<div class="photo-upload-box mx-auto">
+		<input type="file" id="photo" name="{{ field_name(form.photo) }}" value="{{ field_value(form.photo) }}" style="display: none;" multiple>
+		<label for="photo" class="upload-label">
+			<span class="plus-sign">+</span>
+			<img id="preview" src="" alt="Uploaded Image" style="display: none;">
+		</label>
+	</div>
+
+	<div class="mx-auto">
+		<input name="{{ field_name(form.nom) }}" value="{{ field_value(form.nom) }}" placeholder="nom de l'article *" class="form-control" required>
+		<span class='form-errors'>{{ form_errors(form.nom) }}</span>
+	</div>
+
+	<div>
+		<div class="text-center text-white fw-bold">enfants</div>
+		{% for enfant in form.enfants %}
+			<div>
+				<input type="checkbox" name="{{ field_name(enfant) }}" value="{{ field_value(enfant) }}">
+				{{form_label(enfant)}}
+			</div>
+		{% endfor %}
+		<span class='form-errors'>{{ form_errors(form.enfants) }}</span>
+	</div>
+
+	<div>
+		<div class="text-center text-white fw-bold">catégorie</div>
+		{% for categorie in form.categories %}
+			<div>
+				<input type="checkbox" name="{{ field_name(categorie) }}" value="{{ field_value(categorie) }}">
+				{{form_label(categorie)}}
+			</div>
+		{% endfor %}
+		<span class='form-errors'>{{ form_errors(form.categories) }}</span>
+	</div>
+
+	<div>
+		<div class="text-center text-white fw-bold">taille</div>
+		{% for taille in form.tailles %}
+			<div>
+				<input type="checkbox" name="{{ field_name(taille) }}" value="{{ field_value(taille) }}">
+				{{form_label(taille)}}
+			</div>
+		{% endfor %}
+		<span class='form-errors'>{{ form_errors(form.tailles) }}</span>
+	</div>
+
+
+	<div>
+		<div class="text-center text-white fw-bold">sexe</div>
+		{% for sexe in form.sexe %}
+			<div>
+				<input type="checkbox" name="{{ field_name(sexe) }}" value="{{ field_value(sexe) }}">
+				{{form_label(sexe)}}
+			</div>
+		{% endfor %}
+		<span class='form-errors'>{{ form_errors(form.sexe) }}</span>
+	</div>
+
+	<div class="mx-auto">
+		<input name="{{ field_name(form.offertPar) }}" value="{{ field_value(form.offertPar) }}" placeholder="offert part (falcultatif)" class="form-control">
+		<span class='form-errors'>{{ form_errors(form.offertPar) }}</span>
+	</div>
+
+	<div class="mx-auto">
+		<textarea id="{{ field_name(form.description) }}" name="{{ field_name(form.description) }}" placeholder="description (falcultatif)" class="form-control text-area"></textarea>
+		<span class='form-errors'>{{ form_errors(form.description) }}</span>
+	</div>
+
+	<div class="mx-auto">
+		<input name="{{ field_name(form.prixAchete) }}" value="{{ field_value(form.prixAchete) }}" placeholder="prix acheté (falcultatif)" class="form-control">
+		<span class='form-errors'>{{ form_errors(form.prixAchete) }}</span>
+	</div>
+</div>
+<div class="text-center ">
+	<button class="button-3 btn">{{ button_label|default('Valider') }}</button>
+</div>
+{{form_end(form)}}

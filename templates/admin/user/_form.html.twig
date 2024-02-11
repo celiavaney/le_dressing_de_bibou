@@ -1,4 +1,10 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="form">
+	<input name="{{ field_name(form.email) }}" value="{{ field_value(form.email) }}" placeholder="e-mail *" class="form-control" required>
+	<span class='form-errors'>{{ form_errors(form.email) }}</span>
+
+	<input name="{{ field_name(form.plainPassword) }}" value="{{ field_value(form.plainPassword) }}" placeholder="mot de passe *" class="form-control" required>
+	<span class='form-errors'>{{ form_errors(form.plainPassword) }}</span>
+	<button class="button-1 btn">{{ button_label|default('Valider') }}</button>
+</div>
 {{ form_end(form) }}

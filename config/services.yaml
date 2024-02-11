@@ -8,6 +8,8 @@ parameters:
   chemin_images: "/images/"
   dossier_docs: "%kernel.project_dir%/public/docs"
   chemin_docs: "/docs/"
+  dossier_uploads: "%kernel.project_dir%/public/uploads"
+  chemin_uploads: "/uploads/"
 
 services:
   # default configuration for services in *this* file
