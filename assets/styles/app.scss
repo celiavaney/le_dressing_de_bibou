@@ -257,6 +257,13 @@ body {
     max-height: 100%;
     display: block;
   }
+  
+  select{
+    width: 260px!important;
+    height: 50px!important;
+    padding: 0 10px!important;
+    margin: 0 auto;
+  }
 }
 
 .form-client{

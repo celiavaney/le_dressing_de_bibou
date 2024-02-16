@@ -35,4 +35,47 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
   }
+
+  const isAdminArticlesTemplate = document.querySelector(
+    ".admin-ajout-articles"
+  );
+
+  if (isAdminArticlesTemplate) {
+    const clientSelect = document.getElementById("user_id");
+    const enfantCheckboxesContainer = document.getElementById(
+      "enfant-checkboxes-container"
+    );
+    document.getElementById("enfants_id").style.display = "none";
+    document.getElementById("titre-enfants").style.display = "none";
+
+    clientSelect.addEventListener("change", function loadEnfants() {
+      const selectedClientId = clientSelect.value;
+
+      fetch(`/admin/articles/enfants/${selectedClientId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          enfantCheckboxesContainer.innerHTML = "";
+
+          data.forEach((enfant) => {
+            console.log(enfant);
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "articles[enfants][]";
+            checkbox.value = enfant.id;
+            checkbox.id = "enfant_" + enfant.id;
+            const label = document.createElement("label");
+            label.htmlFor = "enfant_" + enfant.id;
+            label.appendChild(document.createTextNode(enfant.prenom));
+            enfantCheckboxesContainer.appendChild(checkbox);
+            enfantCheckboxesContainer.appendChild(label);
+            console.log(checkbox.name);
+            console.log(checkbox.value);
+            console.log(checkbox.id);
+            console.log(label.htmlFor);
+          });
+        });
+
+      document.getElementById("titre-enfants").style.display = "block";
+    });
+  }
 });

@@ -6,6 +6,7 @@ use App\Entity\Articles;
 use App\Entity\Categories;
 use App\Form\ArticlesType;
 use App\Form\CategoriesType;
+use App\Repository\EnfantsRepository;
 use App\Repository\ArticlesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,12 +67,30 @@ class ArticlesController extends AbstractController
             $this->addFlash("success", "L'article a bien été ajouté.");
 
             return $this->redirectToRoute('app_admin_articles_index', [], Response::HTTP_SEE_OTHER);
+        }else{
+            $this->addFlash("danger", "L'article n'a pas pu être ajouté.");
         }
 
         return $this->render('admin/articles/new.html.twig', [
             'article' => $article,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/enfants/{userId}', name: 'app_admin_fetch_enfants')]
+    public function getEnfantsByClient(Request $request, EnfantsRepository $enfantsRepository, $userId)
+    {
+        $enfants = $enfantsRepository->findBy(['user' => $userId]);
+
+        $enfantList = [];
+        foreach ($enfants as $enfant) {
+            $enfantList[] = [
+                'id' => $enfant->getId(),
+                'prenom' => $enfant->getPrenom(),
+            ];
+        }
+
+        return new JsonResponse($enfantList);
     }
 
     #[Route('/{id}', name: 'app_admin_articles_show', methods: ['GET'])]
