@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de Bibou - Les tailles
+{% endblock %}
+
+{% block body %}
+	<div class="nom-appli">
+		<a href="{{path('app_user_enfants_index')}}">
+			<i class="fa-solid fa-house" style="color: #876fa3;"></i>
+		</a>
+		Le dressing de Bibou
+	</div>
+	<h1 class="titre-client">
+		Les tailles
+	</h1>
+
+	<div class="d-flex flex-column gap-2 align-items-center">
+		{% for taille in tailles %}
+			<div class="d-flex gap-1 bg-white rounded-2 p-2 w-50 justify-content-between">
+				{{taille.nom}}
+				{{ include('user/tailles/_delete_form.html.twig') }}
+			</div>
+		{% endfor %}
+	</div>
+
+	{{ form_start(form) }}
+	<div class="add-article-form">
+		<div class="mx-auto">
+			<input name="{{ field_name(form.nom) }}" value="{{ field_value(form.nom) }}" placeholder="nom de la taille *" class="form-control" required>
+			<span class='form-errors'>{{ form_errors(form.nom) }}</span>
+		</div>
+
+		<div>
+			<div class="text-center text-white fw-bold">enfants</div>
+			{% for enfant in form.enfants %}
+				<div>
+					<input type="checkbox" name="{{ field_name(enfant) }}" value="{{ field_value(enfant) }}">
+					{{form_label(enfant)}}
+				</div>
+			{% endfor %}
+			<span class='form-errors'>{{ form_errors(form.enfants) }}</span>
+		</div>
+
+		<button class="button-vert btn mx-auto">{{ button_label|default('Ajouter une taille') }}</button>
+	</div>
+	{{ form_end(form) }}
+{% endblock %}

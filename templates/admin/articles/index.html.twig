@@ -18,7 +18,7 @@
 			<thead>
 				<tr>
 					<th class="text-center">Id</th>
-					<th>Clisent</th>
+					<th>Client</th>
 					<th>Nom</th>
 					<th>Photo</th>
 					<th>Sexe</th>
@@ -54,7 +54,7 @@
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="7">Aucun article enregistré</td>
+						<td colspan="8">Aucun article enregistré</td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -62,6 +62,6 @@
 	</div>
 
 	<div class="text-center mt-5 ">
-		<a class='button-2 btn mb-5' href="{{ path('app_admin_home') }}">Retour à l'accueil</a>
+		<a class='button-violet-clair btn mb-5' href="{{ path('app_admin_home') }}">Retour à l'accueil</a>
 	</div>
 {% endblock %}

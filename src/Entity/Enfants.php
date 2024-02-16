@@ -25,9 +25,17 @@ class Enfants
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: 'enfants')]
+    private Collection $categories;
+
+    #[ORM\ManyToMany(targetEntity: Tailles::class, mappedBy: 'enfants')]
+    private Collection $tailles;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->tailles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,6 +93,60 @@ class Enfants
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Categories>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categories $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->addEnfant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            $category->removeEnfant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tailles>
+     */
+    public function getTailles(): Collection
+    {
+        return $this->tailles;
+    }
+
+    public function addTaille(Tailles $taille): static
+    {
+        if (!$this->tailles->contains($taille)) {
+            $this->tailles->add($taille);
+            $taille->addEnfant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTaille(Tailles $taille): static
+    {
+        if ($this->tailles->removeElement($taille)) {
+            $taille->removeEnfant($this);
+        }
 
         return $this;
     }

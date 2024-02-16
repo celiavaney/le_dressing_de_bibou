@@ -5,6 +5,6 @@
 
 	<input name="{{ field_name(form.plainPassword) }}" value="{{ field_value(form.plainPassword) }}" placeholder="mot de passe *" class="form-control" required>
 	<span class='form-errors'>{{ form_errors(form.plainPassword) }}</span>
-	<button class="button-1 btn">{{ button_label|default('Valider') }}</button>
+	<button class="button-violet-fonce btn">{{ button_label|default('Valider') }}</button>
 </div>
 {{ form_end(form) }}

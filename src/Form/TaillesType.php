@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Enfants;
 use App\Entity\Tailles;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TaillesType extends AbstractType
@@ -13,6 +15,13 @@ class TaillesType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('enfants', EntityType::class, [
+                'class' => Enfants::class,
+                'choice_label' => 'prenom',
+                'multiple' => true,
+                'expanded' => true,
+                "required" => true,
+            ])
         ;
     }
 

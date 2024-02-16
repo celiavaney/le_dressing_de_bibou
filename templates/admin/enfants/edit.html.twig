@@ -16,11 +16,11 @@
 		<input name="{{ field_name(form.prenom) }}" value="{{ field_value(form.prenom) }}" placeholder="prénom *" class="form-control" required>
 		<span class='form-errors'>{{ form_errors(form.prenom) }}</span>
 
-		<button class="button-1 btn">{{ button_label|default('Modifier') }}</button>
+		<button class="button-violet-fonce btn">{{ button_label|default('Modifier') }}</button>
 	</div>
 	{{ form_end(form) }}
 
 	<div class="text-center my-5">
-		<a class='button-2 btn' href="{{ path('app_admin_enfants_index') }}">Retour à la liste enfants</a>
+		<a class='button-violet-clair btn' href="{{ path('app_admin_enfants_index') }}">Retour à la liste enfants</a>
 	</div>
 {% endblock %}

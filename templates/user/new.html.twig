@@ -12,13 +12,13 @@
 		<input name="{{ field_name(form.prenom) }}" value="{{ field_value(form.prenom) }}" placeholder="Prénom *" class="form-control" required>
 		<span class='form-errors'>{{ form_errors(form.prenom) }}</span>
 
-		<button type="submit" class="button-1 btn mb-4">
+		<button type="submit" class="button-violet-fonce btn mb-4">
 			Je valide
 		</button>
 	</div>
 	{{ form_end(form) }}
 
 	<div class="text-center mt-5">
-		<a class='button-2 btn' href="{{ path('app_user_enfants_index') }}">Retour à la liste</a>
+		<a class='button-violet-clair btn' href="{{ path('app_user_enfants_index') }}">Retour à la liste</a>
 	</div>
 {% endblock %}

@@ -18,7 +18,7 @@ class EnfantsController extends AbstractController
     #[Route('/enfants', name: 'app_user_enfants_index', methods: ['GET'])]
     public function index(EnfantsRepository $enfantsRepository): Response
     {
-        return $this->render('user/enfants/index.html.twig', [
+        return $this->render('user/index.html.twig', [
             'enfants' => $enfantsRepository->findAll(),
         ]);
     }
@@ -30,7 +30,9 @@ class EnfantsController extends AbstractController
         $user = $this->getUser();
 
         $enfant = new Enfants();
-        $form = $this->createForm(EnfantsType::class, $enfant);
+        $form = $this->createForm(EnfantsType::class, $enfant, [
+            'include_user_field' => false, 
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -39,11 +41,13 @@ class EnfantsController extends AbstractController
             $entityManager->persist($enfant);
             $entityManager->flush();
 
+            $this->addFlash("success", "L'enfant a bien été ajouté.");
+
             return $this->redirectToRoute('app_user_enfants_index', [], Response::HTTP_SEE_OTHER);
         }
 
         $routeName = $request->attributes->get('_route');
-        $template = ($routeName === 'app_user_create_enfant') ? 'user/creation_enfant.html.twig' : 'user/enfants/new.html.twig';
+        $template = ($routeName === 'app_user_create_enfant') ? 'user/creation_enfant.hmtl.twig' : 'user/new.html.twig';
 
         return $this->render($template, [
             'enfant' => $enfant,
@@ -56,12 +60,12 @@ class EnfantsController extends AbstractController
     {
         // Ensure the child belongs to the current user
         if ($enfant->getUser() === $this->getUser()) {
-            return $this->render('user/enfants/enfant/accueil_enfant.html.twig', [
+            return $this->render('user/enfant/accueil_enfant.html.twig', [
                 'enfant' => $enfant,
             ]);
         } else {
             // Child not found or doesn't belong to the user
-            throw $this->createNotFoundException('Child not found or unauthorized access.');
+            throw $this->createNotFoundException('Enfant non trouvé ou accès non autorisé.');
         }
     }
 
@@ -71,6 +75,9 @@ class EnfantsController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$enfant->getId(), $request->request->get('_token'))) {
             $entityManager->remove($enfant);
             $entityManager->flush();
+
+            $this->addFlash("success", "L'enfant a bien été supprimé.");
+
         }
 
         return $this->redirectToRoute('app_user_enfants_index', [], Response::HTTP_SEE_OTHER);

@@ -19,11 +19,11 @@
 		<span class='form-errors'>
 			{{form_errors(form.user)}}</span>
 
-		<button class="button-1 btn">{{ button_label|default('Ajouter') }}</button>
+		<button class="button-violet-fonce btn">{{ button_label|default('Ajouter') }}</button>
 	</div>
 	{{ form_end(form) }}
 
 	<div class="text-center my-5">
-		<a class='button-2 btn' href="{{ path('app_admin_enfants_index') }}">Retour à la liste enfants</a>
+		<a class='button-violet-clair btn' href="{{ path('app_admin_enfants_index') }}">Retour à la liste enfants</a>
 	</div>
 {% endblock %}
