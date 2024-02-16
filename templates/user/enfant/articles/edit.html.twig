@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de Bibou - Editer un article admin
+{% endblock %}
+
+{% block body %}
+	<h1 class="titreh1 text-center p-3">Le dressing
+		<br>
+		de
+		<span class="prenom">{{ enfant.prenom}}</span>
+	</h1>
+
+	{{ include('user/enfant/articles/_form.html.twig') }}
+
+	<div class="text-center my-5">
+		<a class='button-violet-clair btn' href="{{ path('app_user_enfant_index', {'id': enfant.id}) }}">Retour à la liste articles</a>
+	</div>
+{% endblock %}

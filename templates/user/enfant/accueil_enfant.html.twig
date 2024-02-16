@@ -10,14 +10,14 @@
 		de
 		<span class="prenom">{{ enfant.prenom}}</span>
 		{# <a href="{{path('app_user_enfants_index')}}">
-																									<i class="fa-solid fa-repeat switch-icon" style="color: #000000;"></i>
-																								</a> #}
+																																	<i class="fa-solid fa-repeat switch-icon" style="color: #000000;"></i>
+																																</a> #}
 	</h1>
 	<div class="d-flex flex-column gap-3 align-items-center mb-5">
 		<a href="{{path('app_user_enfants_index')}}" class="icon-house">
 			<i class="fa-solid fa-house" style="color: #876fa3;"></i>
 		</a>
-		<a href="" class="button-vert btn">J'ajoute un article</a>
+		<a href="{{path('app_user_enfant_article_new', {"idEnfant":enfant.id})}}" class="button-vert btn">J'ajoute un article</a>
 		<a href="" class="button-rose btn">Le dressing complet</a>
 		<a href="" class="button-jaune btn">Je filtre par taille</a>
 		<a href="" class="button-jaune btn">Je filtre par catégorie</a>
