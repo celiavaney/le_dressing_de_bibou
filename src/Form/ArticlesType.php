@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Enfants;
 use App\Entity\Tailles;
 use App\Entity\Articles;
@@ -59,6 +60,16 @@ class ArticlesType extends AbstractType
                 'multiple' => false,
                 'expanded' => true,
                 "required" => true,
+            ])
+            ->add('user', EntityType::class, [
+                "class" => User::class, 
+                "choice_label" => "email",
+                "placeholder" => "Sélectionner un client *",
+                // 'class' => User::class,
+                // 'choice_label' => 'email',
+                // 'multiple' => false,
+                // 'expanded' => true,
+                // "required" => true,
             ])
             ->add('categories', EntityType::class, [
                 'class' => Categories::class,

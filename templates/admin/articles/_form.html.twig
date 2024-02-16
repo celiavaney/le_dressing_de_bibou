@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-<div class="add-article-form">
+<div class="add-article-form admin-ajout-articles">
 	<div class="photo-upload-box mx-auto">
 		<input type="file" id="photo" name="{{ field_name(form.photo) }}" value="{{ field_value(form.photo) }}" style="display: none;" multiple>
 		<label for="photo" class="upload-label">
@@ -13,16 +13,37 @@
 		<span class='form-errors'>{{ form_errors(form.nom) }}</span>
 	</div>
 
-	<div>
-		<div class="text-center text-white fw-bold">enfants</div>
-		{% for enfant in form.enfants %}
-			<div>
-				<input type="checkbox" name="{{ field_name(enfant) }}" value="{{ field_value(enfant) }}">
-				{{form_label(enfant)}}
-			</div>
-		{% endfor %}
-		<span class='form-errors'>{{ form_errors(form.enfants) }}</span>
+	{{ form_widget(form.user, {"id": "user_id"}) }}
+	<span class='form-errors'>{{ form_errors(form.user) }}</span>
+
+	<div class="text-center text-white fw-bold" id="titre-enfants">enfants</div>
+	<div class="d-flex gap-2 justify-content-center" id="enfant-checkboxes-container">
+		{{ form_widget(form.enfants, {"id": "enfants_id"}) }}
 	</div>
+	<span class='form-errors'>{{ form_errors(form.enfants) }}</span>
+
+
+	{# <div>
+																																						<div class="text-center text-white fw-bold">client</div>
+																																						{% for user in form.user %}
+																																							<div>
+																																								<input type="checkbox" name="{{ field_name(user) }}" value="{{ field_value(user) }}">
+																																								{{form_label(user)}}
+																																							</div>
+																																						{% endfor %}
+																																						<span class='form-errors'>{{ form_errors(form.user) }}</span>
+																																					</div> #}
+
+	{# <div>
+																																				<div class="text-center text-white fw-bold">enfants</div>
+																																				{% for enfant in form.enfants %}
+																																					<div>
+																																						<input type="checkbox" name="{{ field_name(enfant) }}" value="{{ field_value(enfant) }}">
+																																						{{form_label(enfant)}}
+																																					</div>
+																																				{% endfor %}
+																																				<span class='form-errors'>{{ form_errors(form.enfants) }}</span>
+																																			</div> #}
 
 	<div>
 		<div class="text-center text-white fw-bold">catégorie</div>
