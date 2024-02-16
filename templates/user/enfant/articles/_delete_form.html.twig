@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('app_user_enfant_article_delete', {'id': article.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer cet article&nbsp;?');">
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+	<button class="btn p-0">
+		<i class="fa-solid fa-trash text-danger"></i>
+	</button>
+</form>

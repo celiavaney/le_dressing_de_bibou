@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de Bibou - Page articles
+{% endblock %}
+
+{% block body %}
+	<h1 class="titreh1 text-center p-3">Le dressing
+		<br>
+		de
+		<span class="prenom">{{ enfant.prenom}}</span>
+	</h1>
+
+	<a href="{{ path('app_user_enfant_article_new')}}" class="button-add mb-3">
+		<i class="fa-solid fa-square-plus" style="color: #bacf7d;"></i>
+	</a>
+
+	<div class="col-11 mx-auto">
+		<table class="table table-striped table-bordered table-sticky-header">
+			<thead>
+				<tr>
+					<th class="text-center">Id</th>
+					<th>Client</th>
+					<th>Nom</th>
+					<th>Photo</th>
+					<th>Sexe</th>
+					<th>Catégorie</th>
+					<th>Taille</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody class="align-middle">
+				{% for article in articles %}
+					<tr>
+						<td class="text-center">{{ article.id }}</td>
+						<td>{{ article.user.email}}</td>
+						<td>{{ article.nom }}</td>
+						<td><img src="{{ chemin_uploads ~ article.photo }}" alt="photo" class="miniature"></td>
+						<td>{{ article.sexe }}</td>
+						<td>{{ article.categories.nom }}
+						</td>
+						<td>
+							{{article.tailles.nom}}
+						</td>
+						<td>
+							<span class="d-flex gap-2 justify-content-center align-items-center">
+								<a href="{{ path('app_admin_articles_show', {'id': article.id}) }}">
+									<i class="fa-solid fa-eye"></i>
+								</a>
+								<a href="{{ path('app_admin_articles_edit', {'id': article.id}) }}">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</a>
+								{{ include('admin/articles/_delete_form.html.twig') }}
+							</span>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="8">Aucun article enregistré</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="text-center mt-5 ">
+		<a class='button-violet-clair btn mb-5' href="{{ path('app_admin_home') }}">Retour à l'accueil</a>
+	</div>
+{% endblock %}

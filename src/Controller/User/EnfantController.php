@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\User;
 
 use App\Entity\Articles;
 use App\Entity\Categories;
 use App\Form\ArticlesType;
 use App\Form\CategoriesType;
+use App\Form\ClientArticlesType;
 use App\Repository\EnfantsRepository;
 use App\Repository\ArticlesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,22 +17,25 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/admin/articles')]
-class ArticlesController extends AbstractController
+#[Route('/user/enfant/articles')]
+class EnfantController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_articles_index', methods: ['GET'])]
-    public function index(ArticlesRepository $articlesRepository): Response
-    {
-        return $this->render('admin/articles/index.html.twig', [
-            'articles' => $articlesRepository->findAll(),
-        ]);
-    }
+    // #[Route('/', name: 'app_admin_articles_index', methods: ['GET'])]
+    // public function index(ArticlesRepository $articlesRepository): Response
+    // {
+    //     return $this->render('admin/articles/index.html.twig', [
+    //         'articles' => $articlesRepository->findAll(),
+    //     ]);
+    // }
 
-    #[Route('/new', name: 'app_admin_articles_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/{idEnfant}/ajout-article', name: 'app_user_enfant_article_new', methods: ['GET', 'POST'])]
+    public function ajoutArticleEnfant(Request $request, EntityManagerInterface $entityManager,EnfantsRepository $enfantsRepository, $idEnfant): Response
     {
+        $user = $this->getUser();
+        $enfant = $enfantsRepository->find($idEnfant);
+
         $article = new Articles();
-        $form = $this->createForm(ArticlesType::class, $article);
+        $form = $this->createForm(ClientArticlesType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,47 +65,38 @@ class ArticlesController extends AbstractController
                 $article->setPhoto($nouveauNomFichier);
             }
 
+            $article->setUser($user);
+            $article->setEnfants($enfant);
+
             $entityManager->persist($article);
             $entityManager->flush();
 
             $this->addFlash("success", "L'article a bien été ajouté.");
 
-            return $this->redirectToRoute('app_admin_articles_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_enfant_index', ['id' => $idEnfant], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/articles/new.html.twig', [
+        return $this->render('user/enfant/articles/new.html.twig', [
+            'enfant' => $enfant,
             'article' => $article,
             'form' => $form,
         ]);
     }
 
-    #[Route('/enfants/{userId}', name: 'app_admin_fetch_enfants')]
-    public function getEnfantsByClient(Request $request, EnfantsRepository $enfantsRepository, $userId)
-    {
-        $enfants = $enfantsRepository->findBy(['user' => $userId]);
-
-        $enfantList = [];
-        foreach ($enfants as $enfant) {
-            $enfantList[] = [
-                'id' => $enfant->getId(),
-                'prenom' => $enfant->getPrenom(),
-            ];
-        }
-
-        return new JsonResponse($enfantList);
-    }
-
-    #[Route('/{id}', name: 'app_admin_articles_show', methods: ['GET'])]
+    #[Route('/{idEnfant}/{id}', name: 'app_user_enfant_article_show', methods: ['GET'])]
     public function show(Articles $article): Response
     {
-        return $this->render('admin/articles/show.html.twig', [
+        return $this->render('user/enfant/articles/show.html.twig', [
             'article' => $article,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_articles_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager): Response
+    #[Route('/{idEnfant}/{id}/edit', name: 'app_user_enfant_article_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager, EnfantsRepository $enfantsRepository, $idEnfant): Response
     {
+        $user = $this->getUser();
+        $enfant = $enfantsRepository->find($idEnfant);
+
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
 
@@ -122,20 +117,24 @@ class ArticlesController extends AbstractController
                 $article->setPhoto($nouveauNomFichier);
             }
 
+            $article->setUser($user);
+            $article->setEnfants($enfant);
+
             $entityManager->flush();
 
             $this->addFlash("success", "L'article a bien été modifié.");
 
-            return $this->redirectToRoute('app_admin_articles_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_enfant_index', ['id' => $idEnfant], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/articles/edit.html.twig', [
+        return $this->render('user/enfant/articles/edit.html.twig', [
+            'enfant' => $enfant,
             'article' => $article,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_articles_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_user_enfant_article_delete', methods: ['POST'])]
     public function delete(Request $request, Articles $article, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
@@ -145,6 +144,6 @@ class ArticlesController extends AbstractController
             $this->addFlash("success", "L'article a bien été supprimé.");
         }
 
-        return $this->redirectToRoute('app_admin_articles_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_enfant_index', [], Response::HTTP_SEE_OTHER);
     }
 }
