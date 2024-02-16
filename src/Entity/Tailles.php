@@ -21,9 +21,13 @@ class Tailles
     #[ORM\OneToMany(targetEntity: Articles::class, mappedBy: 'tailles')]
     private Collection $nombreArticles;
 
+    #[ORM\ManyToMany(targetEntity: Enfants::class, inversedBy: 'tailles')]
+    private Collection $enfants;
+
     public function __construct()
     {
         $this->nombreArticles = new ArrayCollection();
+        $this->enfants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,6 +73,30 @@ class Tailles
                 $nombreArticle->setTailles(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Enfants>
+     */
+    public function getEnfants(): Collection
+    {
+        return $this->enfants;
+    }
+
+    public function addEnfant(Enfants $enfant): static
+    {
+        if (!$this->enfants->contains($enfant)) {
+            $this->enfants->add($enfant);
+        }
+
+        return $this;
+    }
+
+    public function removeEnfant(Enfants $enfant): static
+    {
+        $this->enfants->removeElement($enfant);
 
         return $this;
     }
