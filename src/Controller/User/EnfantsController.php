@@ -20,8 +20,11 @@ class EnfantsController extends AbstractController
     #[Route('/enfants', name: 'app_user_enfants_index', methods: ['GET'])]
     public function index(EnfantsRepository $enfantsRepository): Response
     {
+        $user = $this->getUser();
+        $enfants =$user->getEnfants();
+
         return $this->render('user/index.html.twig', [
-            'enfants' => $enfantsRepository->findAll(),
+            'enfants' => $enfants,
         ]);
     }
 

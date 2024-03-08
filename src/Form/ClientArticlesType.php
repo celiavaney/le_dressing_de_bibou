@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Validator\Constraints\SingleChoice;
 use App\Entity\User;
 use App\Entity\Enfants;
 use App\Entity\Tailles;
@@ -42,6 +43,9 @@ class ClientArticlesType extends AbstractType
                 'multiple' => false,
                 "required" => true,
                 'expanded' => true,
+                // 'constraints' => [
+                //     new SingleChoice(), 
+                // ],
                 'choices'  => [
                     'fille' => 'fille',
                     'garçon' => 'garçon',
@@ -57,12 +61,18 @@ class ClientArticlesType extends AbstractType
             ->add('categories', EntityType::class, [
                 'class' => Categories::class,
                 'choice_label' => 'nom',
+                // 'constraints' => [
+                //     new SingleChoice(), 
+                // ],
                 'multiple' => false,
                 'expanded' => true
             ])
             ->add('tailles', EntityType::class, [
                 'class' => Tailles::class,
                 'choice_label' => 'nom',
+                // 'constraints' => [
+                //     new SingleChoice(), 
+                // ],
                 'multiple' => false,
                 'expanded' => true,
                 "required" => true

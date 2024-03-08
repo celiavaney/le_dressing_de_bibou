@@ -21,7 +21,6 @@ class Articles
     private ?string $photo = null;
 
     #[ORM\Column(length: 20)]
-    #[Assert\Choice(choices:["fille", "garçon", "unisexe"], multiple:false, message:"Choose only one sexe.")]
     private ?string $sexe = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -40,11 +39,11 @@ class Articles
     #[ORM\JoinColumn(nullable: false)]
     private ?Enfants $enfants = null;
 
-    #[ORM\ManyToOne(inversedBy: 'nombreArticles')]
+    #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categories $categories = null;
 
-    #[ORM\ManyToOne(inversedBy: 'nombreArticles')]
+    #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tailles $tailles = null;
 
@@ -204,4 +203,9 @@ class Articles
 
         return $this;
     }
+
+    
 }
+
+
+

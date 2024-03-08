@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Le dressing de Bibou - Ajouter un article admin
+{% block title %}Le dressing de Bibou - Ajouter un article
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 		de
 		<span class="prenom">{{ enfant.prenom}}</span>
 		<a href="{{path('app_user_enfant_index', {'id': enfant.id})}}" class="icon-house">
-			<i class="fa-solid fa-house-user" style="color: #876fa3;"></i>
+			<i class="fa-solid fa-house-user color-violet-fonce"></i>
 		</a>
 	</h1>
 

@@ -19,14 +19,14 @@ class Categories
     private ?string $nom = null;
 
     #[ORM\OneToMany(targetEntity: Articles::class, mappedBy: 'categories')]
-    private Collection $nombreArticles;
+    private Collection $articles;
 
     #[ORM\ManyToMany(targetEntity: Enfants::class, inversedBy: 'categories')]
     private Collection $enfants;
 
     public function __construct()
     {
-        $this->nombreArticles = new ArrayCollection();
+        $this->articles = new ArrayCollection();
         $this->enfants = new ArrayCollection();
     }
 
@@ -50,27 +50,27 @@ class Categories
     /**
      * @return Collection<int, Articles>
      */
-    public function getNombreArticles(): Collection
+    public function getArticles(): Collection
     {
-        return $this->nombreArticles;
+        return $this->articles;
     }
 
-    public function addNombreArticle(Articles $nombreArticle): static
+    public function addArticle(Articles $article): static
     {
-        if (!$this->nombreArticles->contains($nombreArticle)) {
-            $this->nombreArticles->add($nombreArticle);
-            $nombreArticle->setCategories($this);
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setCategories($this);
         }
 
         return $this;
     }
 
-    public function removeNombreArticle(Articles $nombreArticle): static
+    public function removAarticle(Articles $article): static
     {
-        if ($this->nombreArticles->removeElement($nombreArticle)) {
+        if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($nombreArticle->getCategories() === $this) {
-                $nombreArticle->setCategories(null);
+            if ($article->getCategories() === $this) {
+                $article->setCategories(null);
             }
         }
 

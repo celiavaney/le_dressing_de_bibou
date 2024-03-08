@@ -8,6 +8,7 @@ use App\Form\ArticlesType;
 use App\Form\CategoriesType;
 use App\Form\ClientArticlesType;
 use App\Repository\EnfantsRepository;
+use App\Repository\TaillesRepository;
 use App\Repository\ArticlesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,18 +18,82 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/user/enfant/articles')]
+#[Route('/user/enfant')]
 class EnfantController extends AbstractController
 {
-    // #[Route('/', name: 'app_admin_articles_index', methods: ['GET'])]
-    // public function index(ArticlesRepository $articlesRepository): Response
-    // {
-    //     return $this->render('admin/articles/index.html.twig', [
-    //         'articles' => $articlesRepository->findAll(),
-    //     ]);
-    // }
+    #[Route('/{idEnfant}/dressing', name: 'app_user_dressing', methods: ['GET'])]
+    public function dressing(EnfantsRepository $enfantsRepository, $idEnfant): Response
+    {
+        $enfant = $enfantsRepository->find($idEnfant);
 
-    #[Route('/{idEnfant}/ajout-article', name: 'app_user_enfant_article_new', methods: ['GET', 'POST'])]
+        return $this->render('user/enfant/dressing/dressing_accueil.html.twig',[
+            'enfant' => $enfant,
+        ]);
+    }
+
+    #[Route('/{idEnfant}/dressing/tailles', name: 'app_user_dressing_tailles', methods: ['GET'])]
+    public function dressingParTaille(EnfantsRepository $enfantsRepository, $idEnfant, ArticlesRepository $articlesRepository, TaillesRepository $taillesRepository): Response
+    {
+        $enfant = $enfantsRepository->find($idEnfant);
+
+        $articleCountsBySize = [];
+        $articleCountsBySizeAndCategory = [];
+
+        foreach ($enfant->getArticles() as $article) {
+            $taille = $article->getTailles()->getNom();
+            $categorie = $article->getCategories()->getNom(); 
+            
+            if (!isset($articleCountsBySize[$taille])) {
+                $articleCountsBySize[$taille] = 0;
+            }
+            $articleCountsBySize[$taille]++;
+
+            if (!isset($articleCountsBySizeAndCategory[$taille][$categorie])) {
+                $articleCountsBySizeAndCategory[$taille][$categorie] = 0;
+            }
+            $articleCountsBySizeAndCategory[$taille][$categorie]++;
+        }
+        // dd($articleCountsBySizeAndCategory);
+
+        return $this->render('user/enfant/dressing/dressing_tailles.html.twig',[
+            'enfant' => $enfant,
+            'articleCountsBySize' => $articleCountsBySize,
+            'articleCountsBySizeAndCategory' => $articleCountsBySizeAndCategory,
+        ]);
+    }
+
+    #[Route('/{idEnfant}/dressing/categories', name: 'app_user_dressing_categories', methods: ['GET'])]
+    public function dressingParCategorie(EnfantsRepository $enfantsRepository, $idEnfant, ArticlesRepository $articlesRepository, TaillesRepository $taillesRepository): Response
+    {
+        $enfant = $enfantsRepository->find($idEnfant);
+
+        $articleCountsByCategory = [];
+        $articleCountsBySizeAndCategory = [];
+
+        foreach ($enfant->getArticles() as $article) {
+            $taille = $article->getTailles()->getNom();
+            $categorie = $article->getCategories()->getNom(); 
+            
+            if (!isset($articleCountsByCategory[$categorie])) {
+                $articleCountsByCategory[$categorie] = 0;
+            }
+            $articleCountsByCategory[$categorie]++;
+
+            if (!isset($articleCountsBySizeAndCategory[$categorie][$taille])) {
+                $articleCountsBySizeAndCategory[$categorie][$taille] = 0;
+            }
+            $articleCountsBySizeAndCategory[$categorie][$taille]++;
+        }
+        // dd($articleCountsBySizeAndCategory);
+
+        return $this->render('user/enfant/dressing/dressing_categories.html.twig',[
+            'enfant' => $enfant,
+            'articleCountsByCategory' => $articleCountsByCategory,
+            'articleCountsBySizeAndCategory' => $articleCountsBySizeAndCategory,
+        ]);
+    }
+
+    #[Route('/articles/{idEnfant}/ajout-article', name: 'app_user_enfant_article_new', methods: ['GET', 'POST'])]
     public function ajoutArticleEnfant(Request $request, EntityManagerInterface $entityManager,EnfantsRepository $enfantsRepository, $idEnfant): Response
     {
         $user = $this->getUser();
@@ -83,7 +148,7 @@ class EnfantController extends AbstractController
         ]);
     }
 
-    #[Route('/{idEnfant}/{id}', name: 'app_user_enfant_article_show', methods: ['GET'])]
+    #[Route('/articles/{idEnfant}/{id}', name: 'app_user_enfant_article_show', methods: ['GET'])]
     public function show(Articles $article): Response
     {
         return $this->render('user/enfant/articles/show.html.twig', [
@@ -91,7 +156,7 @@ class EnfantController extends AbstractController
         ]);
     }
 
-    #[Route('/{idEnfant}/{id}/edit', name: 'app_user_enfant_article_edit', methods: ['GET', 'POST'])]
+    #[Route('/articles/{idEnfant}/{id}/edit', name: 'app_user_enfant_article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager, EnfantsRepository $enfantsRepository, $idEnfant): Response
     {
         $user = $this->getUser();
@@ -134,7 +199,7 @@ class EnfantController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_enfant_article_delete', methods: ['POST'])]
+    #[Route('/articles/{id}', name: 'app_user_enfant_article_delete', methods: ['POST'])]
     public function delete(Request $request, Articles $article, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
