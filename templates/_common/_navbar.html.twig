@@ -1,0 +1,25 @@
+{# <div class="navbar pt-4 px-3 d-flex justify-content-start align-items-center gap-2">
+	<a href="{{path('app_logout')}}">
+		<i class="fa-solid fa-right-from-bracket color-violet-fonce"></i>
+
+	</a>
+	<a href="{{path('app_user_dressing', {'idEnfant': enfant.id})}}" class="btn switch-icon">
+																					<i class="fa-solid fa-circle-left"></i>
+																				</a>
+<a href="{{path('app_user_enfant_index', {'id': enfant.id})}}" class="btn">
+		Accueil de
+		{{enfant.prenom}}
+		<i class="fa-solid fa-house-user color-violet-fonce"></i>
+	</a>
+	<a href="{{path('app_user_enfants_index')}}" class="btn">
+																				Accueil
+																			</a>
+</div> #}
+
+<div class="nom-appli">
+	<a href="{{path('app_logout')}}">
+		<i class="fa-solid fa-right-from-bracket color-violet-fonce"></i>
+	</a>
+	Le dressing de Bibou
+
+</div>

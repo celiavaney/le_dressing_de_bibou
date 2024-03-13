@@ -37,10 +37,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Articles::class, mappedBy: 'user')]
     private Collection $articles;
 
+    #[ORM\OneToMany(targetEntity: Tailles::class, mappedBy: 'user')]
+    private Collection $tailles;
+
+    #[ORM\OneToMany(targetEntity: Categories::class, mappedBy: 'user')]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->enfants = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->tailles = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,6 +175,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($article->getUser() === $this) {
                 $article->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tailles>
+     */
+    public function getTailles(): Collection
+    {
+        return $this->tailles;
+    }
+
+    public function addTaille(Tailles $taille): static
+    {
+        if (!$this->tailles->contains($taille)) {
+            $this->tailles->add($taille);
+            $taille->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTaille(Tailles $taille): static
+    {
+        if ($this->tailles->removeElement($taille)) {
+            // set the owning side to null (unless already changed)
+            if ($taille->getUser() === $this) {
+                $taille->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Categories>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categories $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getUser() === $this) {
+                $category->setUser(null);
             }
         }
 

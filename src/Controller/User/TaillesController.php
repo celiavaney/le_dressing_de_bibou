@@ -26,12 +26,18 @@ class TaillesController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, TaillesRepository $taillesRepository): Response
     {
         $user = $this->getUser();
+        $tailles = $user->getTailles();
+
+        $enfants = $user->getEnfants();
 
         $taille = new Tailles();
-        $form = $this->createForm(TaillesType::class, $taille);
+        $form = $this->createForm(TaillesType::class, $taille,['enfants' => $enfants]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $form->setUser($user);
+
             $entityManager->persist($taille);
             $entityManager->flush();
 
@@ -42,7 +48,7 @@ class TaillesController extends AbstractController
         }
 
         return $this->render('user/tailles/new.html.twig', [
-            'tailles' => $taillesRepository->findAll(),
+            'tailles' => $tailles,
             'taille' => $taille,
             'form' => $form,
         ]);

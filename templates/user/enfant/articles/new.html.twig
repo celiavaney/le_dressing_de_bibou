@@ -3,15 +3,9 @@
 {% block title %}Le dressing de Bibou - Ajouter un article
 {% endblock %}
 
+
 {% block body %}
-	<h1 class="titreh1 text-center p-3">Le dressing
-		<br>
-		de
-		<span class="prenom">{{ enfant.prenom}}</span>
-		<a href="{{path('app_user_enfant_index', {'id': enfant.id})}}" class="icon-house">
-			<i class="fa-solid fa-house-user color-violet-fonce"></i>
-		</a>
-	</h1>
+	{{ include("_common/_navbar-enfant.html.twig") }}
 
 	{{ include('user/enfant/articles/_form.html.twig') }}
 {% endblock %}

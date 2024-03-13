@@ -4,27 +4,27 @@
 {% endblock %}
 
 {% block body %}
-	<div class="nom-appli">
-		<a href="{{path('app_user_enfants_index')}}">
-			<i class="fa-solid fa-house color-violet-fonce"></i>
-		</a>
-		Le dressing de Bibou
-	</div>
 	<h1 class="titre-client bg-violet-fonce">
 		Les tailles
 	</h1>
-
 	<div class="d-flex flex-column gap-2 align-items-center">
+
 		{% for taille in tailles %}
 			<div class="d-flex gap-1 bg-white rounded-2 p-2 w-50 justify-content-between">
 				{{taille.nom}}
 				{{ include('user/tailles/_delete_form.html.twig') }}
 			</div>
+		{% else %}
+			<div>pas de tailles</div>
 		{% endfor %}
 	</div>
 
+	<div class="text-center mt-5">
+		<a class='button-violet-clair btn' href="{{ path('app_user_enfants_index') }}">Retour à l'accueil</a>
+	</div>
+
 	{{ form_start(form) }}
-	<div class="add-article-form">
+	<div class="add-article-form mb-5">
 		<div class="mx-auto">
 			<input name="{{ field_name(form.nom) }}" value="{{ field_value(form.nom) }}" placeholder="nom de la taille *" class="form-control" required>
 			<span class='form-errors'>{{ form_errors(form.nom) }}</span>

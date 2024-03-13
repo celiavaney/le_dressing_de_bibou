@@ -27,12 +27,17 @@ class CategoriesController extends AbstractController
     {
         $user = $this->getUser();
 
+        $categories = $user->getCategories();
+
+        $enfants = $user->getEnfants();
+
         $category = new Categories();
-        $form = $this->createForm(CategoriesType::class, $category);
+        $form = $this->createForm(CategoriesType::class, $category, ['enfants' => $enfants]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            $form->setUser($user);
+
             $entityManager->persist($category);
             $entityManager->flush();
 
@@ -42,7 +47,7 @@ class CategoriesController extends AbstractController
         }
 
         return $this->render('user/categories/new.html.twig', [
-            'categories' => $categoriesRepository->findAll(),
+            'categories' => $categories,
             'category' => $category,
             'form' => $form,
         ]);

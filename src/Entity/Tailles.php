@@ -24,6 +24,9 @@ class Tailles
     #[ORM\ManyToMany(targetEntity: Enfants::class, inversedBy: 'tailles')]
     private Collection $enfants;
 
+    #[ORM\ManyToOne(inversedBy: 'tailles')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -97,6 +100,18 @@ class Tailles
     public function removeEnfant(Enfants $enfant): static
     {
         $this->enfants->removeElement($enfant);
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

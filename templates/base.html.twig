@@ -17,8 +17,10 @@
 	</head>
 	<body>
 		{{ include("_common/_messages.html.twig") }}
-		{{ include("_common/_navbar.html.twig") }}
 
+		{% block navbar %}
+			{{ include("_common/_navbar.html.twig") }}
+		{% endblock %}
 
 		{% block body %}{% endblock %}
 

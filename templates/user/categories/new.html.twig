@@ -4,12 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	<div class="nom-appli">
-		<a href="{{path('app_user_enfants_index')}}">
-			<i class="fa-solid fa-house color-violet-fonce"></i>
-		</a>
-		Le dressing de Bibou
-	</div>
 	<h1 class="titre-client bg-violet-fonce">
 		Les catégories
 	</h1>
@@ -20,7 +14,13 @@
 				{{categorie.nom}}
 				{{ include('user/categories/_delete_form.html.twig') }}
 			</div>
+		{% else %}
+			<div>pas de catégorie</div>
 		{% endfor %}
+	</div>
+
+	<div class="text-center mt-5">
+		<a class='button-violet-clair btn' href="{{ path('app_user_enfants_index') }}">Retour à l'accueil</a>
 	</div>
 
 	{{ form_start(form) }}

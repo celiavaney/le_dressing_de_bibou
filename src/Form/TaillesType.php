@@ -18,6 +18,7 @@ class TaillesType extends AbstractType
             ->add('enfants', EntityType::class, [
                 'class' => Enfants::class,
                 'choice_label' => 'prenom',
+                "choices" => $options["enfants"],
                 'multiple' => true,
                 'expanded' => true,
                 "required" => true,
@@ -29,6 +30,7 @@ class TaillesType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Tailles::class,
+            "enfants" => [],
         ]);
     }
 }
