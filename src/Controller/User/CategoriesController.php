@@ -36,7 +36,7 @@ class CategoriesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $form->setUser($user);
+            $category->setUser($user);
 
             $entityManager->persist($category);
             $entityManager->flush();
@@ -64,17 +64,22 @@ class CategoriesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_categories_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Categories $category, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(CategoriesType::class, $category);
+        $user = $this->getUser();
+        $enfants = $user->getEnfants();
+
+        $form = $this->createForm(CategoriesType::class, $category, ['enfants' => $enfants]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $category->setUser($user);
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_categories_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_categories_new', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/categories/edit.html.twig', [
-            'category' => $category,
+            'categorie' => $category,
             'form' => $form,
         ]);
     }

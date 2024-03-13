@@ -31,12 +31,12 @@ class TaillesController extends AbstractController
         $enfants = $user->getEnfants();
 
         $taille = new Tailles();
-        $form = $this->createForm(TaillesType::class, $taille,['enfants' => $enfants]);
+        $form = $this->createForm(TaillesType::class, $taille, ['enfants' => $enfants]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $form->setUser($user);
+            $taille->setUser($user);
 
             $entityManager->persist($taille);
             $entityManager->flush();
@@ -65,13 +65,18 @@ class TaillesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_tailles_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Tailles $taille, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(TaillesType::class, $taille);
+        $user = $this->getUser();
+        $enfants = $user->getEnfants();
+
+        $form = $this->createForm(TaillesType::class, $taille, ['enfants' => $enfants]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $taille->setUser($user);
+            
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_tailles_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_tailles_new', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/tailles/edit.html.twig', [

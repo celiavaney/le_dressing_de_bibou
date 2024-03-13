@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le dressing de Bibou - Modifier une taille
+{% endblock %}
+
+{% block body %}
+	<h1 class="titre-client bg-violet-fonce">
+		Modifier taille
+		<br/>
+		<span>"{{taille.nom}}"</span>
+	</h1>
+
+
+	{{ form_start(form) }}
+	<div class="add-article-form mb-5">
+		<div class="mx-auto">
+			<input name="{{ field_name(form.nom) }}" value="{{ field_value(form.nom) }}" placeholder="nom de la taille *" class="form-control" required>
+			<span class='form-errors'>{{ form_errors(form.nom) }}</span>
+		</div>
+
+		<div>
+			<div class="text-center text-white fw-bold">enfants</div>
+			{% for enfant in form.enfants %}
+				<div>
+					<input type="checkbox" name="{{ field_name(enfant) }}" value="{{ field_value(enfant) }}">
+					{{form_label(enfant)}}
+				</div>
+			{% endfor %}
+			<span class='form-errors'>{{ form_errors(form.enfants) }}</span>
+		</div>
+
+		<button class="button-vert btn mx-auto">{{ button_label|default('Ajouter une taille') }}</button>
+	</div>
+	{{ form_end(form) }}
+
+	<div class="d-flex flex-column justify-content-center align-items-center gap-3 my-5">
+		<a href="{{path('app_user_tailles_new')}}" class="button-violet-clair btn">Retour aux tailles</a>
+		<a class='button-violet-clair btn' href="{{ path('app_user_enfants_index') }}">Retour à l'accueil</a>
+	</div>
+{% endblock %}
