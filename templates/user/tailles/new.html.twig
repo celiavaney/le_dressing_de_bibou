@@ -4,15 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<div class="text-center mt-2">
-		<a class='color-violet-fonce' href="{{ path('app_user_enfants_index') }}">
-			<i class="fa-solid fa-house-user color-violet-fonce"></i>
-		</a>
-	</div>
 	<h1 class="titre-client bg-violet-fonce">
 		Les tailles
 	</h1>
-	<div class="d-flex flex-column gap-2 align-items-center">
+	<div class="d-flex flex-column gap-2 align-items-center col-md-6 mx-auto">
 		{% for taille in tailles %}
 			<div class="bg-white rounded-2 p-2 w-50 text-center">
 				<div>
@@ -41,7 +36,7 @@
 
 
 	{{ form_start(form) }}
-	<div class="add-article-form mb-5">
+	<div class="add-article-form mb-5 col-10 col-md-6 col-xl-4 mx-auto">
 		<div class="mx-auto">
 			<input name="{{ field_name(form.nom) }}" value="{{ field_value(form.nom) }}" placeholder="nom de la taille *" class="form-control" required>
 			<span class='form-errors'>{{ form_errors(form.nom) }}</span>

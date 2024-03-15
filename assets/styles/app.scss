@@ -60,6 +60,11 @@ body {
       left: 40%;
     }
   }
+ 
+}
+
+.cursive{
+  font-family: "Dancing Script", cursive;
 }
 
 .prenom{
@@ -102,6 +107,14 @@ body {
 
 .color-vert-clair{
   color: $vertClair;
+}
+
+.color-rose{
+  color:$roseClair;
+}
+
+.bg-rose{
+  background-color:$roseClair;
 }
 
 //BOUTONS
@@ -393,7 +406,7 @@ body {
   font-weight: bold;
   font-size: 25px;
   border-radius: 15px;
-  margin: 2rem auto;
+  margin: 3.5rem auto 0.5rem;
 }
 
 .violet-card{

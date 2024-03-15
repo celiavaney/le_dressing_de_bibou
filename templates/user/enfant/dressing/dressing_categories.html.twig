@@ -5,21 +5,9 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="titreh1 text-center px-3 pb-3">Le dressing
-		<br>
-		de
-		<span class="prenom">{{ enfant.prenom}}</span>
-		<a href="{{path('app_user_enfants_index')}}">
-			<i class="fa-solid fa-repeat switch-icon" style="color: #000000;"></i>
-		</a>
-	</h1>
-	<div class="text-center mb-4">
-		<a href="{{path('app_user_enfant_index', {'id': enfant.id})}}" class="icon-house">
-			<i class="fa-solid fa-house-user color-violet-fonce"></i>
-		</a>
-	</div>
 	<div class="d-flex flex-column gap-3 align-items-center mb-3">
-		<div class="titre-client bg-violet-fonce">Mon inventaire
+		<div class="titre-client bg-violet-fonce">L'inventaire de
+			<span class="cursive">{{ enfant.prenom}}</span>
 			<br>
 			par catégorie
 		</div>

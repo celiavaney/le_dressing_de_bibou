@@ -22,3 +22,15 @@
 	</a>
 	Le dressing de Bibou
 </div>
+{% if app.request.attributes.get('_route') != 'app_user_enfants_index' %}
+	<div class="d-flex justify-content-center align-items-center gap-2">
+		<a href="{{ path('app_user_enfants_index') }}" class="button-violet-fonce petit btn m-0">Accueil principal</a>
+		{% if enfant %}
+			<a href="{{path('app_user_enfant_index', {'id': enfant.id})}}" class="button-violet-clair btn">
+				Accueil de
+				{{ enfant.prenom}}
+			</a>
+		{% endif %}
+	</div>
+
+{% endif %}

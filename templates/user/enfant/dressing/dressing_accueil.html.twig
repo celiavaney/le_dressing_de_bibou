@@ -5,21 +5,11 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="titreh1 text-center p-3">Le dressing
-		<br>
-		de
-		<span class="prenom">{{ enfant.prenom}}</span>
-		<a href="{{path('app_user_enfants_index')}}">
-			<i class="fa-solid fa-repeat switch-icon" style="color: #000000;"></i>
-		</a>
-	</h1>
-	<div class="text-center mb-4">
-		<a href="{{path('app_user_enfant_index', {'id': enfant.id})}}" class="icon-house">
-			<i class="fa-solid fa-house-user color-violet-fonce"></i>
-		</a>
-	</div>
+	{# {{ include("_common/_navbar-enfant.html.twig") }} #}
 	<div class="d-flex flex-column gap-3 align-items-center mb-5">
-		<div class="titre-client bg-violet-clair">Mon inventaire</div>
+		<div class="titre-client bg-rose">L'inventaire de
+			<span class="cursive">{{ enfant.prenom}}</span>
+		</div>
 		<a href="{{path('app_user_dressing_tailles', {'idEnfant': enfant.id})}}" class="button-violet-fonce btn">par taille</a>
 		<a href="{{path('app_user_dressing_categories', {'idEnfant': enfant.id})}}" class="button-violet-fonce btn">par catégorie</a>
 	</div>
