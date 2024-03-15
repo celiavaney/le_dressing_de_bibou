@@ -16,33 +16,68 @@
 	<div>
 		<div class="text-center text-white fw-bold">
 			catégorie</div>
-		{% for categorie in form.categories %}
-			<div>
-				<input type="checkbox" name="{{ field_name(categorie) }}" value="{{ field_value(categorie) }}">
-				{{form_label(categorie)}}
+		{% if form.categories %}
+			{# {% for categorie in form.categories %}
+													<div>
+														<input type="checkbox" name="{{ field_name(categorie) }}" value="{{ field_value(categorie) }}">
+														{{form_label(categorie)}}
+													</div>
+												{% endfor %} #}
+			{% for choice in form.categories %}
+				<div class="checkbox">
+					{{ form_widget(choice, {'attr': {'class': 'entity-checkboxes'}}) }}
+					{{ form_label(choice) }}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="mt-2 text-white fst-italic text-center">Vous n'avez pas de catégorie pour cet enfant,
+				<a href="{{path('app_user_categories_new')}}">
+					<u>ajoutez-en une</u>
+				</a>
 			</div>
-		{% endfor %}
+		{% endif %}
 		<span class='form-errors'>{{ form_errors(form.categories) }}</span>
 	</div>
 
 	<div>
 		<div class="text-center text-white fw-bold">taille</div>
-		{% for taille in form.tailles %}
-			<div>
-				<input type="checkbox" name="{{ field_name(taille) }}" value="{{ field_value(taille) }}">
-				{{form_label(taille)}}
+		{% if form.tailles %}
+			{# {% for taille in form.tailles %}
+													<div>
+														<input type="checkbox" name="{{ field_name(taille) }}" value="{{ field_value(taille) }}">
+														{{form_label(taille)}}
+													</div>
+												{% endfor %} #}
+			{% for choice in form.tailles %}
+				<div class="checkbox">
+					{{ form_widget(choice, {'attr': {'class': 'entity-checkboxes'}}) }}
+					{{ form_label(choice) }}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="mt-2 text-white fst-italic text-center">Vous n'avez pas de taille pour cet enfant,
+				<a href="{{path('app_user_tailles_new')}}">
+					<u>ajoutez-en une</u>
+				</a>
 			</div>
-		{% endfor %}
+		{% endif %}
+
 		<span class='form-errors'>{{ form_errors(form.tailles) }}</span>
 	</div>
 
 
 	<div>
 		<div class="text-center text-white fw-bold">sexe</div>
-		{% for sexe in form.sexe %}
-			<div>
-				<input type="checkbox" name="{{ field_name(sexe) }}" value="{{ field_value(sexe) }}">
-				{{form_label(sexe)}}
+		{# {% for sexe in form.sexe %}
+					<div>
+						<input id="sexe" type="checkbox" name="{{ field_name(sexe) }}" value="{{ field_value(sexe) }}">
+						{{form_label(sexe)}}
+					</div>
+				{% endfor %} #}
+		{% for choice in form.sexe %}
+			<div class="checkbox">
+				{{ form_widget(choice, {'attr': {'class': 'entity-checkboxes'}}) }}
+				{{ form_label(choice) }}
 			</div>
 		{% endfor %}
 		<span class='form-errors'>{{ form_errors(form.sexe) }}</span>

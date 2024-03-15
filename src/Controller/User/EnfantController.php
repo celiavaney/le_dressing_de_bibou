@@ -26,8 +26,50 @@ class EnfantController extends AbstractController
     {
         $enfant = $enfantsRepository->find($idEnfant);
 
+        //récupérer les articles de l'enfant par taille
+        $articleCountsBySize = [];
+        $articleCountsBySizeAndCategory = [];
+
+        foreach ($enfant->getArticles() as $article) {
+            $taille = $article->getTailles()->getNom();
+            $categorie = $article->getCategories()->getNom(); 
+            
+            if (!isset($articleCountsBySize[$taille])) {
+                $articleCountsBySize[$taille] = 0;
+            }
+            $articleCountsBySize[$taille]++;
+
+            if (!isset($articleCountsBySizeAndCategory[$taille][$categorie])) {
+                $articleCountsBySizeAndCategory[$taille][$categorie] = 0;
+            }
+            $articleCountsBySizeAndCategory[$taille][$categorie]++;
+        }
+
+        //récupérer les articles de l'enfant par catégorie
+        $articleCountsByCategory = [];
+        $articleCountsBySizeAndCategory = [];
+
+        foreach ($enfant->getArticles() as $article) {
+            $taille = $article->getTailles()->getNom();
+            $categorie = $article->getCategories()->getNom(); 
+            
+            if (!isset($articleCountsByCategory[$categorie])) {
+                $articleCountsByCategory[$categorie] = 0;
+            }
+            $articleCountsByCategory[$categorie]++;
+
+            if (!isset($articleCountsBySizeAndCategory[$categorie][$taille])) {
+                $articleCountsBySizeAndCategory[$categorie][$taille] = 0;
+            }
+            $articleCountsBySizeAndCategory[$categorie][$taille]++;
+        }
+
         return $this->render('user/enfant/dressing/dressing_accueil.html.twig',[
             'enfant' => $enfant,
+            'articleCountsBySize' => $articleCountsBySize,
+            'articleCountsBySizeAndCategory' => $articleCountsBySizeAndCategory,
+            'articleCountsByCategory' => $articleCountsByCategory,
+            'articleCountsBySizeAndCategory' => $articleCountsBySizeAndCategory,
         ]);
     }
 
@@ -99,9 +141,21 @@ class EnfantController extends AbstractController
         $user = $this->getUser();
         $enfant = $enfantsRepository->find($idEnfant);
 
+        $tailles = $enfant->getTailles()->toArray();;
+        $categories = $enfant->getCategories()->toArray();;
+
+        usort($tailles, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+        
+        // Sort categories alphabetically
+        usort($categories, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+
         $article = new Articles();
-        $form = $this->createForm(ClientArticlesType::class, $article);
-        $form->handleRequest($request);
+        $form = $this->createForm(ClientArticlesType::class, $article, ['tailles' => $tailles, 'categories' => $categories]);
+        $form->handleRequest($request); 
 
         if ($form->isSubmitted() && $form->isValid()) {
             $fichier = $form->get("photo")->getData();
@@ -129,6 +183,16 @@ class EnfantController extends AbstractController
                 // on modifie la propriété "couverture" de l'objet Livre
                 $article->setPhoto($nouveauNomFichier);
             }
+           
+
+            // $selectedSexesData = $form->get('sexe')->getData(); 
+            // $numberOfSelectedSexes = count($selectedSexesData);
+
+            // dd($selectedSexesData);
+
+            // $categories = $form->getData()->getCategories();
+
+            // dd($categories);
 
             $article->setUser($user);
             $article->setEnfants($enfant);

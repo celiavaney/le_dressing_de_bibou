@@ -26,7 +26,6 @@ class TaillesController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, TaillesRepository $taillesRepository): Response
     {
         $user = $this->getUser();
-        $tailles = $user->getTailles();
 
         $enfants = $user->getEnfants();
 
@@ -46,6 +45,8 @@ class TaillesController extends AbstractController
 
             // return $this->redirectToRoute('app_user_tailles_index', [], Response::HTTP_SEE_OTHER);
         }
+        
+        $tailles = $taillesRepository->findBy(['user' => $user], ['nom' => 'ASC']);
 
         return $this->render('user/tailles/new.html.twig', [
             'tailles' => $tailles,
