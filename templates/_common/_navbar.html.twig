@@ -25,13 +25,11 @@
 {% if app.request.attributes.get('_route') != 'app_user_enfants_index' %}
 	<div class="d-flex justify-content-center align-items-center gap-2">
 		<a href="{{ path('app_user_enfants_index') }}" class="button-violet-fonce petit btn m-0">Accueil principal</a>
-		{% if enfant is defined %}
+		{% if enfant is defined and enfant is not null and enfant.id is not empty %}
 			<a href="{{path('app_user_enfant_index', {'id': enfant.id})}}" class="button-violet-clair btn">
 				Accueil de
 				{{ enfant.prenom}}
 			</a>
-			{% else %}
-
 		{% endif %}
 	</div>
 
