@@ -47,7 +47,7 @@ class EnfantController extends AbstractController
 
         //récupérer les articles de l'enfant par catégorie
         $articleCountsByCategory = [];
-        $articleCountsBySizeAndCategory = [];
+        $articleCountsByCategoryAndSize = [];
 
         foreach ($enfant->getArticles() as $article) {
             $taille = $article->getTailles()->getNom();
@@ -58,10 +58,11 @@ class EnfantController extends AbstractController
             }
             $articleCountsByCategory[$categorie]++;
 
-            if (!isset($articleCountsBySizeAndCategory[$categorie][$taille])) {
-                $articleCountsBySizeAndCategory[$categorie][$taille] = 0;
+            if (!isset($articleCountsByCategoryAndSize[$categorie][$taille])) {
+                $articleCountsByCategoryAndSize[$categorie][$taille] = 0;
             }
-            $articleCountsBySizeAndCategory[$categorie][$taille]++;
+            $articleCountsByCategoryAndSize[$categorie][$taille]++;
+
         }
 
         return $this->render('user/enfant/dressing/dressing_accueil.html.twig',[
@@ -69,7 +70,7 @@ class EnfantController extends AbstractController
             'articleCountsBySize' => $articleCountsBySize,
             'articleCountsBySizeAndCategory' => $articleCountsBySizeAndCategory,
             'articleCountsByCategory' => $articleCountsByCategory,
-            'articleCountsBySizeAndCategory' => $articleCountsBySizeAndCategory,
+            'articleCountsByCategoryAndSize' => $articleCountsByCategoryAndSize,
         ]);
     }
 

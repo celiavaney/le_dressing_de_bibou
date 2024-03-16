@@ -429,6 +429,7 @@ body {
 
 .violet-card{
   width: 260px;
+  height: auto;
   font-size: 20px;
 }
 
@@ -443,4 +444,13 @@ body {
 .entity-checkboxes + label {
   display: inline-block;
   vertical-align: middle; /* Align labels vertically with checkboxes */
+}
+
+.inventaire{
+  td, th{
+    padding: 5px;
+  }
+  tfoot{
+    border-top: solid 1px $violetFonce;
+  }
 }
