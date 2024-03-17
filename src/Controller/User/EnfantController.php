@@ -24,7 +24,17 @@ class EnfantController extends AbstractController
     #[Route('/{idEnfant}/dressing', name: 'app_user_dressing', methods: ['GET'])]
     public function dressing(EnfantsRepository $enfantsRepository, $idEnfant): Response
     {
-        $enfant = $enfantsRepository->find($idEnfant);
+        $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $enfant = $enfantsRepository->findOneBy(['user' => $user, 'id' => $idEnfant]);
+
+        if (!$enfant) {
+            throw $this->createNotFoundException('Enfant not found');
+        }
 
         //récupérer les articles de l'enfant par taille
         $articleCountsBySize = [];
@@ -74,73 +84,21 @@ class EnfantController extends AbstractController
         ]);
     }
 
-    #[Route('/{idEnfant}/dressing/tailles', name: 'app_user_dressing_tailles', methods: ['GET'])]
-    public function dressingParTaille(EnfantsRepository $enfantsRepository, $idEnfant, ArticlesRepository $articlesRepository, TaillesRepository $taillesRepository): Response
-    {
-        $enfant = $enfantsRepository->find($idEnfant);
-
-        $articleCountsBySize = [];
-        $articleCountsBySizeAndCategory = [];
-
-        foreach ($enfant->getArticles() as $article) {
-            $taille = $article->getTailles()->getNom();
-            $categorie = $article->getCategories()->getNom(); 
-            
-            if (!isset($articleCountsBySize[$taille])) {
-                $articleCountsBySize[$taille] = 0;
-            }
-            $articleCountsBySize[$taille]++;
-
-            if (!isset($articleCountsBySizeAndCategory[$taille][$categorie])) {
-                $articleCountsBySizeAndCategory[$taille][$categorie] = 0;
-            }
-            $articleCountsBySizeAndCategory[$taille][$categorie]++;
-        }
-        // dd($articleCountsBySizeAndCategory);
-
-        return $this->render('user/enfant/dressing/dressing_tailles.html.twig',[
-            'enfant' => $enfant,
-            'articleCountsBySize' => $articleCountsBySize,
-            'articleCountsBySizeAndCategory' => $articleCountsBySizeAndCategory,
-        ]);
-    }
-
-    #[Route('/{idEnfant}/dressing/categories', name: 'app_user_dressing_categories', methods: ['GET'])]
-    public function dressingParCategorie(EnfantsRepository $enfantsRepository, $idEnfant, ArticlesRepository $articlesRepository, TaillesRepository $taillesRepository): Response
-    {
-        $enfant = $enfantsRepository->find($idEnfant);
-
-        $articleCountsByCategory = [];
-        $articleCountsBySizeAndCategory = [];
-
-        foreach ($enfant->getArticles() as $article) {
-            $taille = $article->getTailles()->getNom();
-            $categorie = $article->getCategories()->getNom(); 
-            
-            if (!isset($articleCountsByCategory[$categorie])) {
-                $articleCountsByCategory[$categorie] = 0;
-            }
-            $articleCountsByCategory[$categorie]++;
-
-            if (!isset($articleCountsBySizeAndCategory[$categorie][$taille])) {
-                $articleCountsBySizeAndCategory[$categorie][$taille] = 0;
-            }
-            $articleCountsBySizeAndCategory[$categorie][$taille]++;
-        }
-        // dd($articleCountsBySizeAndCategory);
-
-        return $this->render('user/enfant/dressing/dressing_categories.html.twig',[
-            'enfant' => $enfant,
-            'articleCountsByCategory' => $articleCountsByCategory,
-            'articleCountsBySizeAndCategory' => $articleCountsBySizeAndCategory,
-        ]);
-    }
 
     #[Route('/articles/{idEnfant}/ajout-article', name: 'app_user_enfant_article_new', methods: ['GET', 'POST'])]
     public function ajoutArticleEnfant(Request $request, EntityManagerInterface $entityManager,EnfantsRepository $enfantsRepository, $idEnfant): Response
     {
         $user = $this->getUser();
-        $enfant = $enfantsRepository->find($idEnfant);
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $enfant = $enfantsRepository->findOneBy(['user' => $user, 'id' => $idEnfant]);
+
+        if (!$enfant) {
+            throw $this->createNotFoundException('Enfant not found');
+        }
 
         $tailles = $enfant->getTailles()->toArray();;
         $categories = $enfant->getCategories()->toArray();;
@@ -184,16 +142,6 @@ class EnfantController extends AbstractController
                 // on modifie la propriété "couverture" de l'objet Livre
                 $article->setPhoto($nouveauNomFichier);
             }
-           
-
-            // $selectedSexesData = $form->get('sexe')->getData(); 
-            // $numberOfSelectedSexes = count($selectedSexesData);
-
-            // dd($selectedSexesData);
-
-            // $categories = $form->getData()->getCategories();
-
-            // dd($categories);
 
             $article->setUser($user);
             $article->setEnfants($enfant);
@@ -213,6 +161,113 @@ class EnfantController extends AbstractController
         ]);
     }
 
+    #[Route('/articles/tailles/{idEnfant}/{id}', name: 'app_user_enfant_articles_by_size_show', methods: ['GET'])]
+    public function showArticlesByTailles(int $idEnfant, ArticlesRepository $articleRepository, EnfantsRepository $enfantsRepository): Response
+    {
+        $user = $this->getUser();
+        
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $enfant = $enfantsRepository->findOneBy(['user' => $user, 'id' => $idEnfant]);
+
+        if (!$enfant) {
+            throw $this->createNotFoundException('Enfant not found');
+        }
+
+        $articles = $articleRepository->findBy(['enfants' => $enfant]);
+
+        $articlesBySizeAndCategory = [];
+        $sizeCounts = [];
+        $categoryCountsBySize = [];
+
+        foreach ($articles as $article) {
+            $taille = $article->getTailles()->getNom();
+            $categorie = $article->getCategories()->getNom(); 
+            
+            if (!isset($articlesBySizeAndCategory[$taille])) {
+                $articlesBySizeAndCategory[$taille] = [];
+                $sizeCounts[$taille] = 0;
+            }
+            $sizeCounts[$taille]++;
+
+            if (!isset($articlesBySizeAndCategory[$taille][$categorie])) {
+                $articlesBySizeAndCategory[$taille][$categorie] = [];
+                $categoryCountsBySize[$taille][$categorie] = 0;
+            }
+            $categoryCountsBySize[$taille][$categorie]++;
+
+            $articlesBySizeAndCategory[$taille][$categorie][] = $article;
+        }
+
+        ksort($articlesBySizeAndCategory);
+        foreach ($articlesBySizeAndCategory as &$categories) {
+            ksort($categories);
+        }
+
+
+        return $this->render('user/enfant/articles/show-by-size.html.twig', [
+            'articlesBySizeAndCategory' => $articlesBySizeAndCategory,
+            'enfant' => $enfant,
+            'sizeCounts' => $sizeCounts,
+            'categoryCountsBySize' => $categoryCountsBySize,
+        ]);
+    }
+
+    #[Route('/articles/categories/{idEnfant}/{id}', name: 'app_user_enfant_articles_by_category_show', methods: ['GET'])]
+    public function showArticlesByCategories(int $idEnfant, ArticlesRepository $articleRepository, EnfantsRepository $enfantsRepository): Response
+    {
+        $user = $this->getUser();
+        
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $enfant = $enfantsRepository->findOneBy(['user' => $user, 'id' => $idEnfant]);
+
+        if (!$enfant) {
+            throw $this->createNotFoundException('Enfant not found');
+        }
+
+        $articles = $articleRepository->findBy(['enfants' => $enfant]);
+
+        $articlesBySizeAndCategory = [];
+        $categoryCounts = [];
+        $sizeCountsByCategory = [];
+
+        foreach ($articles as $article) {
+            $categorie = $article->getCategories()->getNom(); 
+            $taille = $article->getTailles()->getNom();
+            
+            if (!isset($articlesBySizeAndCategory[$categorie])) {
+                $articlesBySizeAndCategory[$categorie] = [];
+                $categoryCounts[$categorie] = 0;
+            }
+            $categoryCounts[$categorie]++;
+
+            if (!isset($articlesBySizeAndCategory[$categorie][$taille])) {
+                $articlesBySizeAndCategory[$categorie][$taille] = [];
+                $sizeCountsByCategory[$categorie][$taille] = 0;
+            }
+            $sizeCountsByCategory[$categorie][$taille]++;
+
+            $articlesBySizeAndCategory[$categorie][$taille][] = $article;
+        }
+
+        ksort($articlesBySizeAndCategory);
+        foreach ($articlesBySizeAndCategory as &$sizes) {
+            ksort($sizes);
+        }
+
+        return $this->render('user/enfant/articles/show-by-category.html.twig', [
+            'articlesBySizeAndCategory' => $articlesBySizeAndCategory,
+            'enfant' => $enfant,
+            'categoryCounts' => $categoryCounts,
+            'sizeCountsByCategory' => $sizeCountsByCategory,
+        ]);
+    }
+
     #[Route('/articles/{idEnfant}/{id}', name: 'app_user_enfant_article_show', methods: ['GET'])]
     public function show(Articles $article): Response
     {
@@ -225,12 +280,32 @@ class EnfantController extends AbstractController
     public function edit(Request $request, Articles $article, EntityManagerInterface $entityManager, EnfantsRepository $enfantsRepository, $idEnfant): Response
     {
         $user = $this->getUser();
-        $enfant = $enfantsRepository->find($idEnfant);
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
 
-        $form = $this->createForm(ArticlesType::class, $article);
-        $form->handleRequest($request);
+        $enfant = $enfantsRepository->findOneBy(['user' => $user, 'id' => $idEnfant]);
+        if (!$enfant) {
+            throw $this->createNotFoundException('Enfant not found');
+        }
+
+        $tailles = $enfant->getTailles()->toArray();;
+        $categories = $enfant->getCategories()->toArray();;
+
+        usort($tailles, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+        
+        // Sort categories alphabetically
+        usort($categories, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+
+        $form = $this->createForm(ClientArticlesType::class, $article, ['tailles' => $tailles, 'categories' => $categories]);
+        $form->handleRequest($request); 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $fichier = $article->getPhoto();
             if($fichier = $form->get("photo")->getData() ){
                 // on récupère le nom du fichier
                 $nomFichier = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);

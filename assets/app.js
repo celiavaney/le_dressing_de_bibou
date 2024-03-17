@@ -8,6 +8,7 @@ import "./bootstrap.js";
 import "./styles/app.scss";
 
 require("bootstrap");
+require("jquery");
 
 console.log("This log comes from assets/app.js - welcome to AssetMapper! 🎉");
 
@@ -78,4 +79,19 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("titre-enfants").style.display = "block";
     });
   }
+
+  // var div = (document.querySelector(".toggle-div").style.display = "none");
+
+  // console.log(div);
+
+  // var btnToggle = document.querySelector(".btn-toggle");
+  // btnToggle.addEventListener("click", function toggleDiv() {
+  //   console.log("Current display value:", div.style.display);
+  //   var div = document.querySelector(".toggle-div");
+  //   if (div.style.display === "none") {
+  //     div.style.display = "block";
+  //   } else {
+  //     div.style.display = "none";
+  //   }
+  // });
 });

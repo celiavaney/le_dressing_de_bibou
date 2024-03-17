@@ -69,7 +69,7 @@ class ClientArticlesType extends AbstractType
             ->add('description')
             ->add('prixAchete', MoneyType::class, [
                 'currency' => 'EUR',
-                'mapped' => false,])
+                ])
             // ->add('prixVente')
             ->add('offertPar')
             ->add('categories', EntityType::class, [

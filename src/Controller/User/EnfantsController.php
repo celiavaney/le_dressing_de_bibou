@@ -67,6 +67,7 @@ class EnfantsController extends AbstractController
         if ($enfant->getUser() === $this->getUser()) {
             return $this->render('user/enfant/accueil_enfant.html.twig', [
                 'enfant' => $enfant,
+                'user' => $this->getUser(),
             ]);
         } else {
             // Child not found or doesn't belong to the user
