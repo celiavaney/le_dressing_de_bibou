@@ -27,8 +27,6 @@ class CategoriesController extends AbstractController
     {
         $user = $this->getUser();
 
-        $categories = $user->getCategories();
-
         $enfants = $user->getEnfants();
 
         $category = new Categories();
@@ -44,7 +42,9 @@ class CategoriesController extends AbstractController
             $this->addFlash("success", "La catégorie a bien été ajoutée.");
 
             // return $this->redirectToRoute('app_user_enfants_index', [], Response::HTTP_SEE_OTHER);
-        }
+        } 
+        
+        $categories = $categoriesRepository->findBy(['user' => $user], ['nom' => 'ASC']);
 
         return $this->render('user/categories/new.html.twig', [
             'categories' => $categories,

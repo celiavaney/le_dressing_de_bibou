@@ -5,14 +5,21 @@
 {% endblock %}
 
 {% block body %}
-	{{ include("_common/_navbar-enfant.html.twig") }}
+	<h1 class="titreh1 text-center p-3 mt-3">Le dressing
+		<br>
+		de
+		<a href="{{path('app_user_enfant_index', {'id': enfant.id})}}">
+			<span class="prenom color-violet-tres-fonce">{{ enfant.prenom}}</span>
+		</a>
+	</h1>
+
 
 	<div class="d-flex flex-column gap-3 align-items-center mb-5">
 		<a href="{{path('app_user_enfant_article_new', {"idEnfant":enfant.id})}}" class="button-vert btn">J'ajoute un article</a>
 		<a href="{{path('app_user_dressing', {'idEnfant': enfant.id})}}" class="button-rose btn">L'inventaire de
 			<span class="cursive">{{ enfant.prenom}}</span>
 		</a>
-		<a href="" class="button-jaune btn">Je filtre par taille</a>
-		<a href="" class="button-jaune btn">Je filtre par catégorie</a>
+		<a href="{{ path('app_user_enfant_articles_by_size_show', {"idEnfant":enfant.id, "id": user.id })}}" class="button-jaune btn">Je filtre par taille</a>
+		<a href="{{ path('app_user_enfant_articles_by_category_show', {"idEnfant":enfant.id, "id": user.id })}}" class="button-jaune btn">Je filtre par catégorie</a>
 	</div>
 {% endblock %}

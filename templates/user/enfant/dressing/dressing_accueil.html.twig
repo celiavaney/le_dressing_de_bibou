@@ -6,11 +6,75 @@
 
 {% block body %}
 	{# {{ include("_common/_navbar-enfant.html.twig") }} #}
-	<div class="d-flex flex-column gap-3 align-items-center mb-5">
-		<div class="titre-client bg-rose">L'inventaire de
+	<div class="d-flex flex-column align-items-center mb-5">
+		<div class="titre-client bg-rose mb-5">L'inventaire de
 			<span class="cursive">{{ enfant.prenom}}</span>
 		</div>
-		<a href="{{path('app_user_dressing_tailles', {'idEnfant': enfant.id})}}" class="button-violet-fonce btn">par taille</a>
-		<a href="{{path('app_user_dressing_categories', {'idEnfant': enfant.id})}}" class="button-violet-fonce btn">par catégorie</a>
+
+		<div class="d-flex flex-column justify-content-center align-items-center gap-2 mb-4">
+			<div class="titre-client-2 bg-violet-fonce mb-3">par taille</div>
+			{% if articleCountsBySizeAndCategory %}
+				<div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
+					{% for taille, categorieCounts in articleCountsBySizeAndCategory %}
+						<table class="inventaire violet-card text-white align-middle">
+							<thead class="bg-violet-fonce">
+								<tr>
+									<th scope="col" colspan="2" class="text-center">{{taille|upper}}</th>
+								</tr>
+							</thead>
+							<tbody class="bg-violet-clair">
+								{% for categorie, count in categorieCounts %}
+									<tr>
+										<th scope="row" class="ps-2">{{ categorie }}</th>
+										<td class="text-center">{{ count }}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+							<tfoot class="bg-violet-clair">
+								<tr>
+									<th scope="row" class="text-end">Total</th>
+									<th class="text-center">{{articleCountsBySize[taille]}}</th>
+								</tr>
+							</tfoot>
+						</body>
+					</table>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class='text-center'>Vous n'avez aucun article</div>
+		{% endif %}
 	</div>
-{% endblock %}
+
+	<div class="d-flex flex-column justify-content-center align-items-center gap-2">
+		<div class="titre-client-2 bg-violet-fonce mb-3">par catégorie</div>
+		{% if articleCountsByCategoryAndSize %}
+			<div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
+				{% for categorie, tailleCounts in articleCountsByCategoryAndSize %}
+					<table class="inventaire violet-card rounded-4 text-white align-middle">
+						<thead class="bg-violet-fonce">
+							<tr>
+								<th scope="col" colspan="2" class="text-center">{{categorie|upper}}</th>
+							</tr>
+						</thead>
+						<tbody class="bg-violet-clair">
+							{% for taille, count in tailleCounts %}
+								<tr>
+									<th scope="row" class="ps-2">{{ taille }}</th>
+									<td class="text-center">{{ count }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+						<tfoot class="bg-violet-clair">
+							<tr>
+								<th scope="row" class="text-end">Total</th>
+								<th class="text-center">{{articleCountsByCategory[categorie]}}</th>
+							</tr>
+						</tfoot>
+					</body>
+				</table>
+			{% endfor %}
+		</div>
+	</div>
+{% else %}
+	<div class='text-center'>Vous n'avez aucun article</div>
+{% endif %}</div></div>{% endblock %}

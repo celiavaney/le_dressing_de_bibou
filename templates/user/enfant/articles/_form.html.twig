@@ -1,12 +1,22 @@
 {{ form_start(form) }}
 <div class="add-article-form col-10 col-md-6 col-xl-4 mx-auto">
-	<div class="photo-upload-box mx-auto">
-		<input type="file" id="photo" name="{{ field_name(form.photo) }}" value="{{ field_value(form.photo) }}" style="display: none;" multiple>
-		<label for="photo" class="upload-label">
-			<span class="plus-sign">+</span>
-			<img id="preview" src="" alt="Uploaded Image" style="display: none;">
-		</label>
-	</div>
+	{% if article.photo %}
+		<div class="photo-upload-box mx-auto">
+			<input type="file" id="photo" name="{{ field_name(form.photo) }}" value="{{ field_value(form.photo) }}" style="display: none;" multiple>
+			<label for="photo" class="upload-label">
+				<img id="preview" src="{{ asset('uploads/' ~ article.photo) }}" alt="Article Photo">
+			</label>
+		</div>
+	{% else %}
+		<div class="photo-upload-box mx-auto">
+			<input type="file" id="photo" name="{{ field_name(form.photo) }}" value="{{ field_value(form.photo) }}" style="display: none;" multiple>
+			<label for="photo" class="upload-label">
+				<span class="plus-sign">+</span>
+				<img id="preview" src="" alt="Uploaded Image" style="display: none;">
+			</label>
+		</div>
+	{% endif %}
+
 
 	<div class="mx-auto">
 		<input name="{{ field_name(form.nom) }}" value="{{ field_value(form.nom) }}" placeholder="nom de l'article *" class="form-control" required>
@@ -16,33 +26,78 @@
 	<div>
 		<div class="text-center text-white fw-bold">
 			catégorie</div>
-		{% for categorie in form.categories %}
-			<div>
-				<input type="checkbox" name="{{ field_name(categorie) }}" value="{{ field_value(categorie) }}">
-				{{form_label(categorie)}}
+		{% if form.categories %}
+			{# {% for categorie in form.categories %}
+																																																																																																																																		<div>
+																																																																																																																																			<input type="checkbox" name="{{ field_name(categorie) }}" value="{{ field_value(categorie) }}">
+																																																																																																																																			{{form_label(categorie)}}
+																																																																																																																																		</div>
+																																																																																																																																	{% endfor %} #}
+			{% for choice in form.categories %}
+				<div class="checkbox">
+					{{ form_widget(choice, {'attr': {'class': 'entity-checkboxes'}}) }}
+					{{ form_label(choice) }}
+				</div>
+			{% endfor %}
+			<div class="mt-3">
+				<a href="{{path('app_user_categories_new')}}" class="button-vert petit p-2">
+					Ajouter une catégorie
+				</a>
 			</div>
-		{% endfor %}
+		{% else %}
+			<div class="mt-2 text-white fst-italic text-center">Vous n'avez pas de catégorie pour cet enfant,
+				<a href="{{path('app_user_categories_new')}}">
+					<u>ajoutez-en une</u>
+				</a>
+			</div>
+		{% endif %}
 		<span class='form-errors'>{{ form_errors(form.categories) }}</span>
 	</div>
 
 	<div>
 		<div class="text-center text-white fw-bold">taille</div>
-		{% for taille in form.tailles %}
-			<div>
-				<input type="checkbox" name="{{ field_name(taille) }}" value="{{ field_value(taille) }}">
-				{{form_label(taille)}}
+		{% if form.tailles %}
+			{# {% for taille in form.tailles %}
+																																																																																																																																		<div>
+																																																																																																																																			<input type="checkbox" name="{{ field_name(taille) }}" value="{{ field_value(taille) }}">
+																																																																																																																																			{{form_label(taille)}}
+																																																																																																																																		</div>
+																																																																																																																																	{% endfor %} #}
+			{% for choice in form.tailles %}
+				<div class="checkbox">
+					{{ form_widget(choice, {'attr': {'class': 'entity-checkboxes'}}) }}
+					{{ form_label(choice) }}
+				</div>
+			{% endfor %}
+			<div class="mt-3">
+				<a href="{{path('app_user_tailles_new')}}" class="button-vert petit p-2">
+					Ajouter une taille
+				</a>
 			</div>
-		{% endfor %}
+		{% else %}
+			<div class="mt-2 text-white fst-italic text-center">Vous n'avez pas de taille pour cet enfant,
+				<a href="{{path('app_user_tailles_new')}}">
+					<u>ajoutez-en une</u>
+				</a>
+			</div>
+		{% endif %}
+
 		<span class='form-errors'>{{ form_errors(form.tailles) }}</span>
 	</div>
 
 
 	<div>
 		<div class="text-center text-white fw-bold">sexe</div>
-		{% for sexe in form.sexe %}
-			<div>
-				<input type="checkbox" name="{{ field_name(sexe) }}" value="{{ field_value(sexe) }}">
-				{{form_label(sexe)}}
+		{# {% for sexe in form.sexe %}
+																																																																																			<div>
+																																																																																				<input id="sexe" type="checkbox" name="{{ field_name(sexe) }}" value="{{ field_value(sexe) }}">
+																																																																																				{{form_label(sexe)}}
+																																																																																			</div>
+																																																																																		{% endfor %} #}
+		{% for choice in form.sexe %}
+			<div class="checkbox">
+				{{ form_widget(choice, {'attr': {'class': 'entity-checkboxes'}}) }}
+				{{ form_label(choice) }}
 			</div>
 		{% endfor %}
 		<span class='form-errors'>{{ form_errors(form.sexe) }}</span>
