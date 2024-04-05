@@ -43,16 +43,17 @@ class EnfantController extends AbstractController
         foreach ($enfant->getArticles() as $article) {
             $taille = $article->getTailles()->getNom();
             $categorie = $article->getCategories()->getNom(); 
+            $quantity= $article->getQuantity();
             
             if (!isset($articleCountsBySize[$taille])) {
                 $articleCountsBySize[$taille] = 0;
             }
-            $articleCountsBySize[$taille]++;
+            $articleCountsBySize[$taille] += $quantity;
 
             if (!isset($articleCountsBySizeAndCategory[$taille][$categorie])) {
                 $articleCountsBySizeAndCategory[$taille][$categorie] = 0;
             }
-            $articleCountsBySizeAndCategory[$taille][$categorie]++;
+            $articleCountsBySizeAndCategory[$taille][$categorie] += $quantity;
         }
 
         //récupérer les articles de l'enfant par catégorie
@@ -62,16 +63,17 @@ class EnfantController extends AbstractController
         foreach ($enfant->getArticles() as $article) {
             $taille = $article->getTailles()->getNom();
             $categorie = $article->getCategories()->getNom(); 
+            $quantity = $article->getQuantity();
             
             if (!isset($articleCountsByCategory[$categorie])) {
                 $articleCountsByCategory[$categorie] = 0;
             }
-            $articleCountsByCategory[$categorie]++;
+            $articleCountsByCategory[$categorie] += $quantity;
 
             if (!isset($articleCountsByCategoryAndSize[$categorie][$taille])) {
                 $articleCountsByCategoryAndSize[$categorie][$taille] = 0;
             }
-            $articleCountsByCategoryAndSize[$categorie][$taille]++;
+            $articleCountsByCategoryAndSize[$categorie][$taille] += $quantity;
 
         }
 
@@ -185,18 +187,20 @@ class EnfantController extends AbstractController
         foreach ($articles as $article) {
             $taille = $article->getTailles()->getNom();
             $categorie = $article->getCategories()->getNom(); 
+            $quantity = $article->getQuantity();
             
             if (!isset($articlesBySizeAndCategory[$taille])) {
                 $articlesBySizeAndCategory[$taille] = [];
                 $sizeCounts[$taille] = 0;
             }
-            $sizeCounts[$taille]++;
 
             if (!isset($articlesBySizeAndCategory[$taille][$categorie])) {
                 $articlesBySizeAndCategory[$taille][$categorie] = [];
                 $categoryCountsBySize[$taille][$categorie] = 0;
             }
-            $categoryCountsBySize[$taille][$categorie]++;
+
+            $sizeCounts[$taille] += $quantity;
+            $categoryCountsBySize[$taille][$categorie] += $quantity;
 
             $articlesBySizeAndCategory[$taille][$categorie][] = $article;
         }
@@ -239,18 +243,20 @@ class EnfantController extends AbstractController
         foreach ($articles as $article) {
             $categorie = $article->getCategories()->getNom(); 
             $taille = $article->getTailles()->getNom();
+            $quantity = $article->getQuantity();
             
             if (!isset($articlesBySizeAndCategory[$categorie])) {
                 $articlesBySizeAndCategory[$categorie] = [];
                 $categoryCounts[$categorie] = 0;
             }
-            $categoryCounts[$categorie]++;
 
             if (!isset($articlesBySizeAndCategory[$categorie][$taille])) {
                 $articlesBySizeAndCategory[$categorie][$taille] = [];
                 $sizeCountsByCategory[$categorie][$taille] = 0;
             }
-            $sizeCountsByCategory[$categorie][$taille]++;
+
+            $categoryCounts[$categorie] += $quantity;
+            $sizeCountsByCategory[$categorie][$taille] += $quantity;
 
             $articlesBySizeAndCategory[$categorie][$taille][] = $article;
         }
