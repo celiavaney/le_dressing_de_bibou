@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -84,6 +85,15 @@ class ArticlesType extends AbstractType
                 'expanded' => true,
                 "required" => true
             ])
+            ->add('quantity', IntegerType::class, [
+                'constraints' => [
+                    new Range([
+                        "min" => 1,
+                        "minMessage" => "La quantité doit être supérieure ou égale à 1"
+                    ])
+                ]
+            ]
+            )
         ;
     }
 

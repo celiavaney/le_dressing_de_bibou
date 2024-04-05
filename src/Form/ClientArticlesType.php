@@ -14,12 +14,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -102,6 +104,14 @@ class ClientArticlesType extends AbstractType
                 'choice_attr' => function($choice, $key, $value) {
                     return ['class' => 'entity-checkboxes']; 
                 },
+            ])
+            ->add('quantity', IntegerType::class, [
+                'constraints' => [
+                    new Range([
+                        "min" => 1,
+                        "minMessage" => "La quantité doit être supérieure ou égale à 1"
+                    ])
+                ]
             ])
         ;
     }
