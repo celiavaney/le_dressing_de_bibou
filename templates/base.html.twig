@@ -3,16 +3,25 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<meta name="description" content="Le dressing de Bibou est un site internet qui permet de répertorier les affaires de son enfant très simplement."/>
+		<meta name="description" content="Le dressing de Bebe est un site internet qui permet de répertorier les affaires de son enfant très simplement."/>
 		<title>
 			{% block title %}{% endblock %}
 		</title>
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
+			<link rel="manifest" href="/manifest.json">
 		{% endblock %}
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
+			<script>
+				if ('serviceWorker' in navigator) {
+					navigator.serviceWorker.register('/sw.js')
+					.then(function () {console.log('Enregistrement reussi.')})
+					.catch(function (e) {console.error(e)});
+				}
+			</script>
+
 		{% endblock %}
 	</head>
 	<body>
