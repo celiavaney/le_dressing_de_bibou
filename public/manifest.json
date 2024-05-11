@@ -21,6 +21,11 @@
     "start_url": "/index.php",
     "display": "standalone",
     "theme_color": "#ffffff",
-    "background_color": "#ffffff"
+    "background_color": "#ffffff",
+    "lang": "fr", 
+    "orientation": "portrait",
+    "permissions": [
+       "camera"
+    ]
   }
   

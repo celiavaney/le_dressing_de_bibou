@@ -128,6 +128,7 @@ class EnfantController extends AbstractController
                     }
                 }
 
+
                 // on récupère le nom du fichier
                 $nomFichier = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -355,6 +356,6 @@ class EnfantController extends AbstractController
             $this->addFlash("success", "L'article a bien été supprimé.");
         }
 
-        return $this->redirectToRoute('app_admin_enfant_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_enfant_index', [], Response::HTTP_SEE_OTHER);
     }
 }

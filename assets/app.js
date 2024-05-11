@@ -1,16 +1,24 @@
 import "./bootstrap.js";
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
 import "./styles/app.scss";
 
 require("bootstrap");
 require("jquery");
 
-console.log("This log comes from assets/app.js - welcome to AssetMapper! 🎉");
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+  // Prompt the user for camera access
+  navigator.mediaDevices
+    .getUserMedia({ video: true })
+    .then(function (stream) {
+      // User granted access to camera
+      console.log("Camera access granted");
+    })
+    .catch(function (error) {
+      // User denied access to camera or an error occurred
+      console.error("Camera access denied:", error);
+    });
+} else {
+  console.error("getUserMedia is not supported");
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   const isAddArticleForm = document.querySelector(".add-article-form");
@@ -69,10 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
             label.appendChild(document.createTextNode(enfant.prenom));
             enfantCheckboxesContainer.appendChild(checkbox);
             enfantCheckboxesContainer.appendChild(label);
-            console.log(checkbox.name);
-            console.log(checkbox.value);
-            console.log(checkbox.id);
-            console.log(label.htmlFor);
           });
         });
 
@@ -80,18 +84,47 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // var div = (document.querySelector(".toggle-div").style.display = "none");
+  const isArticlesBySizeTemplate = document.querySelector(".articles-by-size");
 
-  // console.log(div);
+  if (isArticlesBySizeTemplate) {
+    var buttons = document.querySelectorAll(".btn-toggle");
 
-  // var btnToggle = document.querySelector(".btn-toggle");
-  // btnToggle.addEventListener("click", function toggleDiv() {
-  //   console.log("Current display value:", div.style.display);
-  //   var div = document.querySelector(".toggle-div");
-  //   if (div.style.display === "none") {
-  //     div.style.display = "block";
-  //   } else {
-  //     div.style.display = "none";
-  //   }
-  // });
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var category = this.getAttribute("data-category");
+        var articles = document.querySelectorAll(".toggle-div");
+
+        articles.forEach(function (article) {
+          if (article.getAttribute("data-category") === category) {
+            if (article.classList.contains("articles-hidden")) {
+              article.classList.remove("articles-hidden");
+            } else {
+              article.classList.add("articles-hidden");
+            }
+          } else {
+            article.classList.add("articles-hidden");
+          }
+        });
+
+        buttons.forEach(function (btn) {
+          btn.classList.remove("active");
+        });
+
+        this.classList.add("active");
+      });
+    });
+
+    // div.style.display = "none";
+
+    // var btnToggle = document.querySelector(".btn-toggle");
+    // btnToggle.addEventListener("click", function toggleDiv() {
+    //   console.log("Current display value:", div.style.display);
+    //   var div = document.querySelector(".toggle-div");
+    //   if (div.style.display === "none") {
+    //     div.style.display = "block";
+    //   } else {
+    //     div.style.display = "none";
+    //   }
+    // });
+  }
 });

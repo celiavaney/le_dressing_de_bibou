@@ -31,13 +31,13 @@ class ArticlesType extends AbstractType
                 "required" => false,
                 "constraints" => [
                     new File([
-                        "mimeTypes" => [ "image/jpeg", "image/gif", "image/png" ],
-                        "mimeTypesMessage" => "Formats acceptés : gif, jpg, png",
+                        "mimeTypes" => [ "image/jpeg", "image/gif", "image/png", "image/heic" ],
+                        "mimeTypesMessage" => "Formats acceptés : gif, jpg, png, heic",
                         "maxSize" => "2048k",
                         "maxSizeMessage" => "Taille maximale du fichier : 2 Mo"
                     ])
                 ],
-                "help" => "Formats autorisés : images jpg, png ou gif"
+                "help" => "Formats autorisés : images jpg, png, heic ou gif"
             ])
             ->add('sexe', ChoiceType::class,[
                 'multiple' => false,
