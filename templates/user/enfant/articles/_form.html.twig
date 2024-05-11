@@ -1,7 +1,7 @@
 {{ form_start(form) }}
 <div class="add-article-form col-10 col-md-6 col-xl-4 mx-auto">
 	{% if article.photo %}
-		<div class="photo-upload-box mx-auto">
+		<div class="mx-auto">
 			<input type="file" id="photo" name="{{ field_name(form.photo) }}" value="{{ field_value(form.photo) }}" style="display: none;" multiple>
 			<label for="photo" class="upload-label">
 				<img id="preview" src="{{ asset('uploads/' ~ article.photo) }}" alt="Article Photo">
@@ -16,6 +16,7 @@
 			</label>
 		</div>
 	{% endif %}
+	<span class='form-errors'>{{ form_errors(form.photo) }}</span>
 
 
 	<div class="mx-auto">

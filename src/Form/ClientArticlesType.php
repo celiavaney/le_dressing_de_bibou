@@ -43,11 +43,11 @@ class ClientArticlesType extends AbstractType
                 "required" => false,
                 "constraints" => [
                     new File([
-                        "mimeTypes" => [ "image/jpeg", "image/gif", "image/png" ],
-                        "mimeTypesMessage" => "Formats acceptés : gif, jpg, png",
-                        "maxSize" => "2048k",
-                        "maxSizeMessage" => "Taille maximale du fichier : 2 Mo"
-                    ]),
+                        "mimeTypes" => [ "image/jpeg", "image/gif", "image/png", "image/heic" ],
+                        "mimeTypesMessage" => "Formats acceptés : gif, jpg, png, heic",
+                        "maxSize" => "4000k",
+                        "maxSizeMessage" => "L'image téléchargée fait {{size}} {{suffix}}.La taille maximale autorisée est : {{ limit }} {{suffix}}",
+                    ])
                 ],
                 "help" => "Formats autorisés : images jpg, png ou gif"
             ])
