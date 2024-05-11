@@ -7,6 +7,7 @@ use App\Entity\Tailles;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TaillesType extends AbstractType
@@ -22,6 +23,12 @@ class TaillesType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 "required" => true,
+                'constraints' => [
+                    new Count([
+                        'min' => 1,
+                        'minMessage' => 'Selectionner au moins 1 enfant.', 
+                    ]),
+                ],
             ])
         ;
     }

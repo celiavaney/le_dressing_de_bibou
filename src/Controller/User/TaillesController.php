@@ -67,7 +67,14 @@ class TaillesController extends AbstractController
     public function edit(Request $request, Tailles $taille, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $enfants = $user->getEnfants();
+        if (!$user) {
+                throw $this->createNotFoundException('Utilisateur non trouvé.');
+            }
+
+        $enfants = $user->getEnfants()->toArray();
+        usort($enfants, function($a, $b) {
+                return strcmp($a->getPrenom(), $b->getPrenom());
+            });
 
         $form = $this->createForm(TaillesType::class, $taille, ['enfants' => $enfants]);
         $form->handleRequest($request);

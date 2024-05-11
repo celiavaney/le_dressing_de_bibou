@@ -24,9 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const isAddArticleForm = document.querySelector(".add-article-form");
 
   if (isAddArticleForm) {
-    document
-      .getElementById("photo")
-      .addEventListener("change", function (event) {
+    var photo = document.getElementById("photo");
+
+    if (photo) {
+      photo.addEventListener("change", function (event) {
         var input = event.target;
         if (input.files && input.files[0]) {
           var reader = new FileReader();
@@ -43,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
           reader.readAsDataURL(input.files[0]);
         }
       });
+    }
   }
 
   const isAdminArticlesTemplate = document.querySelector(
@@ -113,18 +115,5 @@ document.addEventListener("DOMContentLoaded", function () {
         this.classList.add("active");
       });
     });
-
-    // div.style.display = "none";
-
-    // var btnToggle = document.querySelector(".btn-toggle");
-    // btnToggle.addEventListener("click", function toggleDiv() {
-    //   console.log("Current display value:", div.style.display);
-    //   var div = document.querySelector(".toggle-div");
-    //   if (div.style.display === "none") {
-    //     div.style.display = "block";
-    //   } else {
-    //     div.style.display = "none";
-    //   }
-    // });
   }
 });

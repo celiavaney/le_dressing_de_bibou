@@ -65,7 +65,15 @@ class CategoriesController extends AbstractController
     public function edit(Request $request, Categories $category, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $enfants = $user->getEnfants();
+        if (!$user) {
+                throw $this->createNotFoundException('Utilisateur non trouvé.');
+            }
+
+        $enfants = $user->getEnfants()->toArray();
+        usort($enfants, function($a, $b) {
+                return strcmp($a->getPrenom(), $b->getPrenom());
+            });
+
 
         $form = $this->createForm(CategoriesType::class, $category, ['enfants' => $enfants]);
         $form->handleRequest($request);
@@ -82,6 +90,7 @@ class CategoriesController extends AbstractController
             'categorie' => $category,
             'form' => $form,
         ]);
+
     }
 
     #[Route('/{id}', name: 'app_user_categories_delete', methods: ['POST'])]

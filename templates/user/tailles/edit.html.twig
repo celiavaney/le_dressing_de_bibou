@@ -21,9 +21,9 @@
 		<div>
 			<div class="text-center text-white fw-bold">enfants</div>
 			{% for enfant in form.enfants %}
-				<div>
-					<input type="checkbox" name="{{ field_name(enfant) }}" value="{{ field_value(enfant) }}">
-					{{form_label(enfant)}}
+				<div class="checkbox">
+					{{ form_widget(enfant, {'attr': {'class': 'entity-checkboxes'}}) }}
+					{{ form_label(enfant) }}
 				</div>
 			{% endfor %}
 			<span class='form-errors'>{{ form_errors(form.enfants) }}</span>

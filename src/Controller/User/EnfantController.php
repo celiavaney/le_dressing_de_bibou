@@ -288,12 +288,12 @@ class EnfantController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user) {
-            throw $this->createNotFoundException('User not found');
+            throw $this->createNotFoundException('Utilisateur non trouvé.');
         }
 
         $enfant = $enfantsRepository->findOneBy(['user' => $user, 'id' => $idEnfant]);
         if (!$enfant) {
-            throw $this->createNotFoundException('Enfant not found');
+            throw $this->createNotFoundException('Enfant non trouvé.');
         }
 
         $tailles = $enfant->getTailles()->toArray();;
